@@ -7,12 +7,10 @@ body {
   display: flex;
 }
 
-
 .empty-logo{
   height: 12vh;
-  
-}
 
+}
 
 .landing-page-buttons{
   padding-left: 5vw;
