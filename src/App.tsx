@@ -2,7 +2,11 @@ import { useState } from "react";
 import "./App.css";
 
 const App = () => {
-  return <h1>Codr</h1>;
+  return (
+    <div className="App">
+      <h1>Codr</h1>
+    </div>
+  );
 };
 
 export default App;
