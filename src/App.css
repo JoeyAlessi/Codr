@@ -1,18 +1,17 @@
-body {
+.container {
   margin: 0;
   padding: 0;
   background: radial-gradient(circle at 60%, #304B63, #281822,#160E14);
   background-size: auto;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   display: flex;
 }
 
-
 .empty-logo{
   height: 12vh;
-  
-}
 
+}
 
 .landing-page-buttons{
   padding-left: 5vw;
