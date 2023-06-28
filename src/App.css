@@ -1,8 +1,7 @@
-body{
+body {
   margin: 0;
   padding: 0;
   background: radial-gradient(ellipse at top right, #304B63, #160E14, );
   height: 100%;
   display: flex;
 }
-
