@@ -1,7 +1,89 @@
 body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle at 70%, #304B63, #160E14, );
-  height: 100%;
+  background: radial-gradient(circle at 60%, #304B63, #281822,#160E14);
+  background-size: auto;
+  height: 100vh;
   display: flex;
+}
+
+.empty-logo{
+  height: 15vh;
+  margin-top: -10vw;
+}
+
+.landing-page-buttons{
+  padding-left: 5vw;
+}
+ 
+.handIMG{
+  height: 80vh;
+  width: auto;
+  right: 0;
+  top: 20vh;
+  position: absolute;
+}
+
+.type-writer-animation{
+  display: inline-block;
+  overflow: hidden;
+}
+
+.header{
+  font-size: 10vw;  
+  color: #3A6883;
+  font-weight: 400;
+  border-right: 4px solid;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: 
+  typing 1s,
+  cursor .4s step-end 1s; /* Add '1s' at the end */
+}
+
+@keyframes cursor {
+  50% {border-color: transparent;}
+}
+
+@keyframes typing {
+  0% {width: 0; border-color: opaque;}
+  100% {border-color: transparent;} 
+}
+
+.subheader{
+  font-size: 2vw;
+  color: #3A6883;
+  color: #C1A2CA;
+  margin-top: -7rem; 
+  font-weight: 400;
+  padding-left: 1vw;
+  opacity: 0;
+  animation: fadeIn 2s ease-in 1s forwards;
+
+}
+
+#button{
+  color: #BDBDBD;
+  font-size: 1.5rem;
+  font-weight: 300;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 10px 50px; 
+  margin-top: 12vw; 
+  margin-left: 5vw;
+  opacity: 0;
+  animation: fadeIn 2s ease-in 1s forwards;
+
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
 }
