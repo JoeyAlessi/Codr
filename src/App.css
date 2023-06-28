@@ -1,8 +1,7 @@
-body{
+body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle at top right, #160E14, #304B63);
+  background: radial-gradient(circle at 70%, #304b63, #160e14);
   height: 100%;
   display: flex;
 }
-
