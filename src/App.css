@@ -7,10 +7,12 @@ body {
   display: flex;
 }
 
+
 .empty-logo{
   height: 15vh;
   margin-top: -10vw;
 }
+
 
 .landing-page-buttons{
   padding-left: 5vw;
@@ -24,10 +26,12 @@ body {
   position: absolute;
 }
 
+
 .type-writer-animation{
   display: inline-block;
   overflow: hidden;
 }
+
 
 .header{
   font-size: 10vw;  
@@ -37,31 +41,36 @@ body {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
-  animation: 
+  animation:
   typing 1s,
   cursor .4s step-end 1s; /* Add '1s' at the end */
 }
+
 
 @keyframes cursor {
   50% {border-color: transparent;}
 }
 
+
 @keyframes typing {
   0% {width: 0; border-color: opaque;}
-  100% {border-color: transparent;} 
+  100% {border-color: transparent;}
 }
+
 
 .subheader{
   font-size: 2vw;
   color: #3A6883;
   color: #C1A2CA;
-  margin-top: -7rem; 
+  margin-top: -7rem;
   font-weight: 400;
   padding-left: 1vw;
   opacity: 0;
   animation: fadeIn 2s ease-in 1s forwards;
 
+
 }
+
 
 #button{
   color: #BDBDBD;
@@ -75,11 +84,12 @@ body {
   align-items: center;
   border-radius: 20px;
   background-color: rgba(255, 255, 255, 0.05);
-  padding: 10px 50px; 
-  margin-top: 12vw; 
+  padding: 10px 50px;
+  margin-top: 12vw;
   margin-left: 5vw;
   opacity: 0;
   animation: fadeIn 2s ease-in 1s forwards;
+
 
 }
 

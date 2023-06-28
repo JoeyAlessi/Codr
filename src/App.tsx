@@ -3,6 +3,7 @@ import "./App.css";
 import Hand from "./assets/ai-nuclear-energy-background-future-innovation-disruptive-technology-removebg.png"
 import EmptyLogo from './assets/Logo/Empty_Logo.png'
 
+
 const App = () => {
   return (
     <div className="App">
@@ -22,5 +23,6 @@ const App = () => {
     </div>
   );
 };
+
 
 export default App;
