@@ -42,7 +42,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   animation:
-  typing 1s,
+  typing 2s,
   cursor .4s step-end 1s; /* Add '1s' at the end */
 }
 
