@@ -1,7 +1,21 @@
 body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle at 70%, #304B63, #160E14, );
+  background: radial-gradient(circle at 65%, #304B63, #160E14);
+  background-size: auto;
   height: 100%;
   display: flex;
 }
+ .handIMG{
+  height: 90vh;
+  width: auto;
+  right: 0;
+  top: 10vh;
+  position: absolute;
+ }
+
+ .text{
+  font-size: 100px;
+  color: #3A6883;
+  padding-left: 5vh;
+ }
