@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap');
+
+.bg-gradient {
+  background: radial-gradient(circle at 65%, #304B63, #281822, #160E14);
+}
+
+.header {
+  font-family: 'Manrope';
+  font-size: 10vw;  
+  color: #3A6883;
+  font-weight: 400;
+  border-right: 4px solid;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 5vw;  /* Add padding */
+  animation: typing 2s forwards;
+}
+
+
+
+/*Changed @keyframes typing to have the border-right from the header disappear*/
+@keyframes typing {
+  0% {
+    width: 0;
+    border-color: #3A6883;
+  }
+  80% {
+    border-color: #3A6883;
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+
+@keyframes cursor {
+  40% {border-color: transparent;}
+}
+
+@keyframes typing {
+  0% {width: 0; border-color: opaque;}
+  100% {border-color: transparent;}
+}
+
+.subheader {
+  font-size: 1.5vw;
+  color: #3A6883;
+  color: #C1A2CA;
+  margin-top: -7rem;
+  font-weight: 400;
+  padding-left: 5vw;  /* Add padding */
+  opacity: 0;
+  animation: fadeIn 2s ease-in 1s forwards;
+  font-family: 'Manrope';
+
+}
+
+.btn-start {
+  font-family: 'Manrope';
+  color: #BDBDBD;
+  font-weight: 300;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  margin-top: 7vw;
+  margin-left: 10vw;
+  opacity: 0;
+  animation: fadeIn 2s ease-in 1s forwards;
+}
+
+@media screen and (max-width: 600px) {
+  .btn-start {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .btn-start {
+    font-size: 1rem;
+  }
+}
+
+.robot-hand{
+  animation: fadeIn 1s ease-in
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
