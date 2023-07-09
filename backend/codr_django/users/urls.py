@@ -7,5 +7,4 @@ urlpatterns = [
         views.UserRegisterView.as_view(),
     ),
     path("api/login", views.UserLoginView.as_view()),  # new login path
-
 ]

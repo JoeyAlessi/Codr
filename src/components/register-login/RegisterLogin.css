@@ -1,18 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap");
 
 .bg-gradient {
-  background: radial-gradient(circle at 65%, #304B63, #281822, #160E14);
+  background: radial-gradient(circle at 65%, #304b63, #281822, #160e14);
 }
 
-
 .glass-box {
-    position: relative;
-    width: 80%;
-    height: 90%; 
-    background-color: rgba(217, 217, 217, 0.1);
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-  }
+  position: relative;
+  width: 80%;
+  height: 90%;
+  background-color: rgba(217, 217, 217, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
 
 .logo-top-left {
   position: absolute;
@@ -20,7 +19,7 @@
   left: 10px;
 }
 
-.greeting{
+.greeting {
   font-family: "Manrope";
 }
 
@@ -34,8 +33,12 @@
   background-color: #717171;
 }
 
+.usernameError {
+  font-size: 11px;
+}
+
 .btn-login {
-  background-color: #3A6883;
+  background-color: #3a6883;
 }
 
 .logo-right-top {
@@ -94,7 +97,6 @@
 .bottom {
   transform: rotateX(-90deg) translateZ(5vw);
 }
-
 
 @keyframes rotate {
   from {

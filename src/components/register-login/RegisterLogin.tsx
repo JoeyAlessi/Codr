@@ -3,12 +3,15 @@ import "./RegisterLogin.css";
 import LogoText from "../../assets/Logo/LogoText.png";
 import Text from "../../assets/Logo/Text.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const RegisterLogin = () => {
+  const navigate = useNavigate();
   const [register, setRegisterState] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState("");
 
   const registerUser = async () => {
     try {
@@ -17,9 +20,34 @@ export const RegisterLogin = () => {
         username: username,
         password: password,
       });
-      console.log(response.data);
+
+      if (response.data.Error) {
+        setUsernameError(response.data.Error);
+      } else {
+        setUsernameError("");
+        navigate("/topic");
+      }
     } catch (error) {
       console.error("error when registering user", error);
+    }
+  };
+
+  console.log(usernameError);
+
+  const logInUser = async () => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/login", {
+        //objects sending to postgres db
+        username: username,
+        password: password,
+      });
+      console.log(response.data);
+
+      if (response.data) {
+        navigate("/feed");
+      }
+    } catch (error) {
+      console.error("error when logging in", error);
     }
   };
 
@@ -47,7 +75,10 @@ export const RegisterLogin = () => {
                 type="password"
                 placeholder="Password"
               />
-              <button className="btn-login py-3 px-4 w-5/6 sm:w-3/4 text-white text-center mb-2">
+              <button
+                className="btn-login py-3 px-4 w-5/6 sm:w-3/4 text-white text-center mb-2"
+                onClick={logInUser}
+              >
                 Log In
               </button>
             </>
@@ -56,6 +87,7 @@ export const RegisterLogin = () => {
               <h2 className="greeting text-xl sm:text-2xl my-1 md:text-3xl lg:text-2xl xl:text-3xl font-semibold mb-8 text-center">
                 Welcome to Codr!
               </h2>
+
               <input
                 className="input-field mb-4 p-3 w-5/6 sm:w-3/4 "
                 type="text"
@@ -70,6 +102,13 @@ export const RegisterLogin = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
+              <div>
+                {usernameError && (
+                  <div className="text-red-500 text-xs mt-[-1rem] flex justify-center mb-[0.5rem]">
+                    {usernameError}
+                  </div>
+                )}
+              </div>
               <input
                 className="input-field mb-8 p-3 w-5/6 sm:w-3/4"
                 type="password"
