@@ -12,7 +12,7 @@ export const RegisterLogin = () => {
 
   const registerUser = async () => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/register", {
+      const response = await axios.post("http://127.0.0.1:8000/api/register/", {
         email: email, //objects sending to postgres db
         username: username,
         password: password,
@@ -102,7 +102,7 @@ export const RegisterLogin = () => {
             </span>
           </p>
         </div>
-        
+
         <div className="hidden md:block vertical-line"></div>
 
         <div className="w-0 lg:w-1/2 flex items-center justify-center relative">
