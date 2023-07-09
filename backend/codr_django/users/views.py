@@ -14,13 +14,12 @@ from rest_framework import status
 
 class UserRegisterView(APIView):
     def post(self, request, *args, **kwargs):
-        print(**request.data)
         username = request.data.get("username")
-        password = make_password(request.data.get("password"))
+        password = request.data.get("password")
         email = request.data.get("email")
 
         user = User.objects.create(**request.data)
-        print(user)
+        print(f"USER : {user}")
         # user = UserSerializer(user)
 
         if not all([username, password, email]):
