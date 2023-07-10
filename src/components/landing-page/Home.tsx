@@ -1,4 +1,4 @@
-import React from 'react';
+  import React from 'react';
 import './Home.css';
 import Hand from "../../assets/ai-nuclear-energy-background-future-innovation-disruptive-technology-removebg.png";
 import EmptyLogo from "../../assets/Logo/Empty_Logo.png";

@@ -4,10 +4,62 @@
   background: radial-gradient(circle at 65%, #304b63, #281822, #160e14);
 }
 
-.header{
+.topicheader{
   font-family: "Manrope";
+  user-select: none;
+
 }
 
-.subheader{
+.topicsubheader{
   font-family: "Manrope";
+  user-select: none;
+
 }
+
+
+.button-default{
+  background-color: rgba(217, 217, 217, .2);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  text-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  outline: none;
+}
+
+.button-default:hover {
+  background-color: rgba(217, 217, 217, .3);  /* Lighter gray when hovered */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  cursor: pointer;
+}
+
+.button-pressed{
+  background-color: rgba(57,57,57,0.71);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+  text-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button-pressed:hover {
+  background-color: rgba(57,57,57,0.8);  /* Darker gray when hovered */
+  box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+  cursor: pointer;
+}
+.shadow-gray {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+.topic{
+  user-select: none;
+}
+
+.join-button{
+  background-color: rgba(87, 87, 95, 10%);
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+
+}
+
+.placeholder {
+  height: 2.5rem;
+}
+

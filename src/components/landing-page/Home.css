@@ -15,6 +15,7 @@
   overflow: hidden;
   padding-left: 5vw;  /* Add padding */
   animation: typing 2s forwards;
+  user-select: none;
 }
 
 
@@ -52,6 +53,7 @@
   opacity: 0;
   animation: fadeIn 2s ease-in 1s forwards;
   font-family: 'Manrope';
+  user-select: none;
 
 }
 
@@ -71,6 +73,7 @@
   margin-left: 10vw;
   opacity: 0;
   animation: fadeIn 2s ease-in 1s forwards;
+  user-select: none;
 }
 
 @media screen and (max-width: 600px) {
