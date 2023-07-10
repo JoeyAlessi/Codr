@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap");
+
+.bg-gradient {
+  background: radial-gradient(circle at 65%, #304b63, #281822, #160e14);
+}
+
+.header{
+  font-family: "Manrope";
+}
+
+.subheader{
+  font-family: "Manrope";
+}
