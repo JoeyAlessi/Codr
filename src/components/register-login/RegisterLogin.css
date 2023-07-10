@@ -7,7 +7,7 @@
 .glass-box {
   position: relative;
   width: 80%;
-  height: 90%;
+
   background-color: rgba(217, 217, 217, 0.1);
   border-radius: 10px;
   backdrop-filter: blur(10px);

@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User  # django already has a built in user model
-
 from django.contrib.auth.hashers import (
     make_password,
 )
@@ -16,6 +15,7 @@ class UserRegisterView(APIView):
     def post(self, request, *args, **kwargs):
         username = request.data.get("username")
         password = request.data.get("password")
+        confirmPass = request.data.get("confirmPass")
         email = request.data.get("email")
 
         if not all([username, password, email]):
@@ -23,13 +23,19 @@ class UserRegisterView(APIView):
                 {"Error": "All fields are required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        if len(username) < 6:
+        elif password != confirmPass:
+            return Response(
+                {"Error": "Passwords don't match."},
+            )
+        elif len(username) < 6:
             return Response(
                 {"Error": "Username must be at least 6 characters long"},
             )
 
-        user = User.objects.create(**request.data)
+        user = User.objects.create_user(
+            username=username, email=email, password=password
+        )
+
         print(f"USER : {user}")
         user = UserSerializer(user)
 
@@ -38,37 +44,19 @@ class UserRegisterView(APIView):
 
 class UserLoginView(APIView):
     def post(self, request, *args, **kwargs):
-        username = request.data.get("username")
-        password = request.data.get("password")
+        username = request.data.get("username", "NONE")
+        password = request.data.get("password", "NONE")
 
-        print(username)
-        print(password)
+        if username != "NONE" and password != "NONE":
+            potential_username = User.objects.get(username=username)
+            first_id = potential_username.id
 
-        user = authenticate(
-            username=username, password=password
-        )  # checks if the username and password are valid
-        print(user)
+            potential_password = User.objects.get(password=password)
+            second_id = potential_password.id
 
-        # looks up the username
-        # checks the password
-        # if username is found:
-        # check provided password against password in db
+            if first_id == second_id:  # user exists
+                return Response({"Message": "User Exists"})
 
-        if user:  # user exists
-            print("EXISTS")
-            if not all([username, password]):
-                return Response(
-                    {"Error": "All fields are required"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            if user is not None:
-                return Response({"Success": "User Authentication"})
-            else:
-                return Response({"Error": "Invalid Username and Password"})
-
-        else:  # user does not exist (throw error)
-            print("DOESN'T EXIST")
-            return Response(
-                {"Error": "Invalid credentials (PUSSYFART)."},
-            )
+        return Response(
+            {"Error": "Invalid credentials."},
+        )
