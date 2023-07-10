@@ -41,14 +41,34 @@ class UserLoginView(APIView):
         username = request.data.get("username")
         password = request.data.get("password")
 
-        if not all([username, password]):
+        print(username)
+        print(password)
+
+        user = authenticate(
+            username=username, password=password
+        )  # checks if the username and password are valid
+        print(user)
+
+        # looks up the username
+        # checks the password
+        # if username is found:
+        # check provided password against password in db
+
+        if user:  # user exists
+            print("EXISTS")
+            if not all([username, password]):
+                return Response(
+                    {"Error": "All fields are required"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            if user is not None:
+                return Response({"Success": "User Authentication"})
+            else:
+                return Response({"Error": "Invalid Username and Password"})
+
+        else:  # user does not exist (throw error)
+            print("DOESN'T EXIST")
             return Response(
-                {"Error": "All fields are required"}, status=status.HTTP_400_BAD_REQUEST
+                {"Error": "Invalid credentials (PUSSYFART)."},
             )
-
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            return Response({"Success": "User Authentication"})
-        else:
-            return Response({"Error": "Invalid Username and Password"})

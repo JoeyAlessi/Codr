@@ -12,6 +12,7 @@ export const RegisterLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
+  const [credentialError, setCredentialError] = useState("");
 
   const registerUser = async () => {
     try {
@@ -34,7 +35,7 @@ export const RegisterLogin = () => {
 
   console.log(usernameError);
 
-  const logInUser = async () => {
+  const loginUser = async () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/login", {
         //objects sending to postgres db
@@ -42,8 +43,12 @@ export const RegisterLogin = () => {
         password: password,
       });
       console.log(response.data);
+      console.log(response);
 
-      if (response.data) {
+      if (response.data.Error) {
+        setCredentialError(response.data.Error);
+      } else {
+        setCredentialError("");
         navigate("/feed");
       }
     } catch (error) {
@@ -75,9 +80,16 @@ export const RegisterLogin = () => {
                 type="password"
                 placeholder="Password"
               />
+              <div>
+                {credentialError && (
+                  <div className="text-red-500 text-xs mt-[-1rem] flex justify-center mb-[0.5rem]">
+                    {credentialError}
+                  </div>
+                )}
+              </div>
               <button
                 className="btn-login py-3 px-4 w-5/6 sm:w-3/4 text-white text-center mb-2"
-                onClick={logInUser}
+                onClick={loginUser}
               >
                 Log In
               </button>
