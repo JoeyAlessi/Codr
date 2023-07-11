@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
 import "./topicselection.css";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,8 @@ const topicselection = () => {
 
   const [selectedTopicIndex, setSelectedTopicIndices] = useState<number[]>([]);
   const [threeTopicsSelected, setThreeTopicsSelected] = useState(false);
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true); // A little buggy, when first being use
+
 
   const handleButtonClick = (index: number) => {
     setSelectedTopicIndices((prevSelectedIndices) => {
@@ -40,7 +42,6 @@ const topicselection = () => {
         } else {
           setThreeTopicsSelected(false);
         }
-
         return [...prevSelectedIndices, index];
       }
     });
@@ -50,29 +51,67 @@ const topicselection = () => {
   // const buttonClassName = `${isPressed ? 'shadow-none' : 'shadow'} ${isPressed ? 'bg-blue-700' : 'bg-blue-400'} text-white font-bold py-2 px-4 border-b-4 border-blue-700 rounded`
   const buttonClassName = (index: number) =>
     `${
-      selectedTopicIndex.includes(index) ? "button-pressed" : "button-default"
+      selectedTopicIndex.includes(index)
+        ? "button-pressed shadow-none"
+        : "button-default shadow-gray"
     } text-white font-bold py-2 px-4 rounded m-2 flex-wrap rounded-2xl`;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-gradient">
       <div className="flex flex-col justify-center min-h-screen px-8 md:px-10 lg:px-14">
-        <header className="mt-5 md:mt-10 lg:mt-14">
-        <img src={EmptyLogo} alt="Logo" className="absolute top-0 left-0 m-2 h-8 lg:h-[10vh] " />
+        <img
+          src={EmptyLogo}
+          alt="Logo"
+          className="absolute top-0 left-0 m-2 h-[7vh] md:h-[9vh] lg:h-[10vh] "
+        />
+        {/* <header className="mt-5 md:mt-10 lg:mt-14"></header> */}
 
-        </header>
-    
-        <div className="flex flex-col space-y-10 md:space-y-0 md:flex-row md:space-x-4 items-center justify-center">
-        <main className="w-full md:w-5/12 px-7 py-10 mb-auto">
-            <h1 className="text-7xl font-bold" style={{color: "#C1A2CA"}}>
+        <div className="flex flex-col space-y-10 md:space-y-0 lg:flex-row md:space-x-4 items-center justify-center">
+          {/* Main */}
+          <main className="w-full md:w-full lg:w-5/12 px-7 py-8 mb-auto text-center lg:px-0 lg:text-left">
+            <h1 className="text-7xl font-bold" style={{ color: "#C1A2CA" }}>
               Welcome to Codr,
             </h1>
-            <h2 className="text-4xl font-bold mt-4" style={{color: "#3A6883"}}>
+            <h2
+              className="text-4xl font-bold mt-4"
+              style={{ color: "#3A6883" }}
+            >
               What tech topics are you interested in?
             </h2>
+            
+            <div className="flex justify-center items-center">
+            {isLargeScreen && threeTopicsSelected && (
+              <button
+                className="join-button text-white font-300 py-2 px-6 rounded-xl disabled:opacity-50 mt-20"
+                disabled={!threeTopicsSelected}
+                onClick={() => navigate("/feed")}
+              >
+                Join Codr
+              </button>
+            )}
+            </div>
+
+         
           </main>
-        
-          <aside className="flex flex-wrap justify-center w-full md:w-1/2 px-5 py-10">
-              <p className = "w-full text-center text-xl my-5">Please choose at least 3 topics to proceed.</p>
+
+          {/* SideBar */}
+          <aside className="flex flex-wrap justify-center w-full lg:w-7/12 px-5 py-8">
+            <p className="w-full text-center text-xl my-5">
+              Please choose at least 3 topics to proceed.
+            </p>
 
             {topics.map((topic, index) => (
               <button
@@ -80,25 +119,22 @@ const topicselection = () => {
                 className={buttonClassName(index)}
                 onClick={() => handleButtonClick(index)}
               >
-                <div className="topic">{topic}</div>
+                <div className="">{topic}</div>
               </button>
             ))}
-        <div className="w-full flex justify-center mb-5">
-          <div className = "placeholder">
-          {!threeTopicsSelected ? ("") : (<button
-            className="join-button text-white font-300 py-2 px-4 rounded-lg m-2 disabled:opacity-50 my-5"
-            disabled={!threeTopicsSelected}
-            onClick={() => navigate('/feed')}
-          >
-            Join Codr 
-          </button>) 
-          }
-          </div>
-        </div>
+            <div className="flex justify-center items-center">
+            {!isLargeScreen && threeTopicsSelected && (
+              <button
+                className="join-button text-white font-300 py-2 px-6 rounded-xl disabled:opacity-50 mt-10"
+                disabled={!threeTopicsSelected}
+                onClick={() => navigate("/feed")}
+              >
+                Join Codr
+              </button>
+            )}
+            </div>
           </aside>
         </div>
-
-
       </div>
     </div>
   );

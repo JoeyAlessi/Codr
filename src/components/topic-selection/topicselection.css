@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap");
 
+
+
 .bg-gradient {
   background: radial-gradient(circle at 65%, #304b63, #281822, #160e14);
 }
@@ -15,7 +17,6 @@
   user-select: none;
 
 }
-
 
 .button-default{
   background-color: rgba(217, 217, 217, .2);
@@ -53,13 +54,7 @@
 }
 
 .join-button{
-  background-color: rgba(87, 87, 95, 10%);
+  background-color: rgba(217, 217, 217, .2);
   font-size: 1.5rem;
-  padding: 1rem 2rem;
 
 }
-
-.placeholder {
-  height: 2.5rem;
-}
-
