@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
 from django.contrib.auth.hashers import (
     make_password,
 )
@@ -7,9 +6,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
-from Codr.backend.codr_django.users.models import UserInterest
-from .serializer import UserSerializer
-
+from .serializer import InterestSerializer, UserSerializer
+from .models import UserInterest
+from django.contrib.auth.models import User
+from .models import Topic
 
 class UserRegisterView(APIView):
     def post(self, request, *args, **kwargs):
@@ -36,7 +36,7 @@ class UserRegisterView(APIView):
             username=username, email=email, password=password
         )
 
-        print(f"USER : {user}")
+        print("id:", user.id)
         user = UserSerializer(user)
 
         return Response(user.data)
@@ -73,10 +73,21 @@ class UserLoginView(APIView):
 class UserInterestView(APIView):
     def post(self, request, *args, **kwargs):
         username = request.data.get("username")
+        user = User.objects.filter(username=username).first()
+        print("Username", username)
         interests = request.data.get("interests")
+        print("Interests:", interests)
         user = User.objects.get(username=username)
+        print("User:", user)
+        user_interest = UserInterest.objects.create(user=user)
 
         for interest in interests:
-            UserInterest.objects.create(user=user, topic=interest)
+            topic, created = Topic.objects.get_or_create(name=interest)
+            user_interest.topics.add(topic)
 
+        user_interest = InterestSerializer(user_interest)
+        user_interest.save()
+        
         return Response({"Message", "Interests updated"})
+
+    

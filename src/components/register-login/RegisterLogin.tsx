@@ -4,6 +4,9 @@ import LogoText from "../../assets/Logo/LogoText.png";
 import Text from "../../assets/Logo/Text.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import  TopicSelection from "../topic-selection/topicselection.tsx"
+// import { useDispatch } from "react-redux";
+// import { setUsernameSlice } from "../../redux/userSlice";
 
 export const RegisterLogin = () => {
   const navigate = useNavigate();
@@ -14,7 +17,9 @@ export const RegisterLogin = () => {
   const [confirmPass, setConPass] = useState(""); //Confirm Password
   const [usernameError, setUsernameError] = useState("");
   const [credentialError, setCredentialError] = useState("");
+  // const [userId, setUserId] = useState(null);
 
+  // const dispatch = useDispatch();
   const registerUser = async () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/register", {
@@ -23,12 +28,16 @@ export const RegisterLogin = () => {
         password: password,
         confirmPass: confirmPass, // Password Confrim Variable
       });
+      console.log(response)
 
       if (response.data.Error) {
         setUsernameError(response.data.Error);
       } else {
         setUsernameError("");
-        navigate("/topic");
+        // <TopicSelection
+        // username={username}/>
+        navigate("/topic", {state: {username: username}});
+        
       }
     } catch (error) {
       console.error("error when registering user", error);
@@ -44,11 +53,11 @@ export const RegisterLogin = () => {
         username: username,
         password: password,
       });
-
       if (response.data.Error) {
         setCredentialError(response.data.Error);
       } else {
         setCredentialError("");
+        // dispatch(setUsernameSlice(username));
         navigate("/feed");
       }
     } catch (error) {

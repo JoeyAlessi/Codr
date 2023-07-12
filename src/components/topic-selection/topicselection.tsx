@@ -1,11 +1,20 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
 import "./topicselection.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+// import { useSelector } from "react-redux/es/hooks/useSelector";
+// import { RootState } from "../../redux/store";
+import axios from "axios";
+
+// export type TopicSelectionProps = {
+//   username: string
+// }
 
 const topicselection = () => {
   const navigate = useNavigate();
-
+  // const username = useSelector((state: RootState) => state.user.username)
+  const location = useLocation();
+  const username = location.state.username
   const topics = [
     "Programming Fundamentals",
     "Data Structures",
@@ -23,8 +32,7 @@ const topicselection = () => {
 
   const [selectedTopicIndex, setSelectedTopicIndices] = useState<number[]>([]);
   const [threeTopicsSelected, setThreeTopicsSelected] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(false); // A little buggy, when first being use
-
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(false); // A little buggy, when first being used
 
   const handleButtonClick = (index: number) => {
     setSelectedTopicIndices((prevSelectedIndices) => {
@@ -47,6 +55,18 @@ const topicselection = () => {
     });
   };
 
+  const joinCodr = async () => {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+    const selectedTopics = selectedTopicIndex.map((index) => topics[index]);
+    console.log(selectedTopics);
+
+    await axios.post("http://127.0.0.1:8000/api/interests", {
+      username: username,
+      interests: selectedTopics,
+    });
+    navigate("/feed");
+  };
+
   //rgb for pressed button:
   // const buttonClassName = `${isPressed ? 'shadow-none' : 'shadow'} ${isPressed ? 'bg-blue-700' : 'bg-blue-400'} text-white font-bold py-2 px-4 border-b-4 border-blue-700 rounded`
   const buttonClassName = (index: number) =>
@@ -62,10 +82,10 @@ const topicselection = () => {
     };
     handleResize();
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -82,7 +102,10 @@ const topicselection = () => {
         <div className="flex flex-col space-y-10 md:space-y-0 lg:flex-row md:space-x-4 items-center justify-center">
           {/* Main */}
           <main className="w-full md:w-full lg:w-5/12 px-7 py-8 mb-auto text-center lg:px-0 lg:text-left">
-            <h1 className="topicheader text-7xl font-bold" style={{ color: "#C1A2CA" }}>
+            <h1
+              className="topicheader text-7xl font-bold"
+              style={{ color: "#C1A2CA" }}
+            >
               Welcome to Codr,
             </h1>
             <h2
@@ -91,20 +114,18 @@ const topicselection = () => {
             >
               What tech topics are you interested in?
             </h2>
-            
-            <div className="flex justify-center items-center">
-            {isLargeScreen && threeTopicsSelected && (
-              <button
-                className="join-button text-white font-300 py-2 px-6 rounded-xl disabled:opacity-50 mt-20 animate-fade-in"
-                disabled={!threeTopicsSelected}
-                onClick={() => navigate("/feed")}
-              >
-                Join Codr
-              </button>
-            )}
-            </div>
 
-         
+            <div className="flex justify-center items-center">
+              {isLargeScreen && threeTopicsSelected && (
+                <button
+                  className="join-button text-white font-300 py-2 px-6 rounded-xl disabled:opacity-50 mt-20 animate-fade-in"
+                  disabled={!threeTopicsSelected}
+                  onClick={() => joinCodr()}
+                >
+                  Join Codr
+                </button>
+              )}
+            </div>
           </main>
 
           {/* SideBar */}
@@ -122,17 +143,17 @@ const topicselection = () => {
                 <div className="">{topic}</div>
               </button>
             ))}
-            
+
             <div className="flex justify-center items-center">
-            {!isLargeScreen && threeTopicsSelected && (
-              <button
-                className="join-button text-white font-300 py-2 px-6 rounded-xl disabled:opacity-50 mt-10"
-                disabled={!threeTopicsSelected}
-                onClick={() => navigate("/feed")}
-              >
-                Join Codr
-              </button>
-            )}
+              {!isLargeScreen && threeTopicsSelected && (
+                <button
+                  className="join-button text-white font-300 py-2 px-6 rounded-xl disabled:opacity-50 mt-10"
+                  disabled={!threeTopicsSelected}
+                  onClick={() => joinCodr()}
+                >
+                  Join Codr
+                </button>
+              )}
             </div>
           </aside>
         </div>
