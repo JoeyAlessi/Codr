@@ -11,6 +11,7 @@ from .models import UserInterest
 from django.contrib.auth.models import User
 from .models import Topic
 
+
 class UserRegisterView(APIView):
     def post(self, request, *args, **kwargs):
         username = request.data.get("username")
@@ -60,8 +61,9 @@ class UserLoginView(APIView):
             return Response({"Error": "Password required to login."})
 
         user = User.objects.filter(username=username).first()
-        print(password)
-        print(user.password)
+        print("User:", user)
+        print("Password:", password)
+        print("User.Password:", user.password)
 
         if password == user.password:
             serializer = UserSerializer(user)
@@ -84,6 +86,6 @@ class UserInterestView(APIView):
         for interest in interests:
             topic, created = Topic.objects.get_or_create(name=interest)
             user_interest.topics.add(topic)
-            
+
         user_interest.save()
         return Response({"Message", "Interests updated"})
