@@ -1,14 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User  # django already has a built in user model
-from django.contrib.auth.hashers import (
-    make_password,
-)
+from django.contrib.auth.hashers import make_password, check_password
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 from .serializer import UserSerializer
+
+
+class UserView(APIView):  # added UserView to get all User information if needed
+    def get(self, reseult, *args, **kwargs):
+        users = User.objects.all()
+        serializer = UserSerializer(users)
+        return Response(serializer.data)
 
 
 class UserRegisterView(APIView):
@@ -44,19 +49,27 @@ class UserRegisterView(APIView):
 
 class UserLoginView(APIView):
     def post(self, request, *args, **kwargs):
-        username = request.data.get("username", "NONE")
-        password = request.data.get("password", "NONE")
+        username = request.data.get("username")
+        password = request.data.get("password")
 
-        if username != "NONE" and password != "NONE":
-            potential_username = User.objects.get(username=username)
-            first_id = potential_username.id
+        print("username", username)
+        print("password", password)
 
-            potential_password = User.objects.get(password=password)
-            second_id = potential_password.id
+        if not username and not password:
+            return Response({"Error": "Username and password required to login."})
 
-            if first_id == second_id:  # user exists
-                return Response({"Message": "User Exists"})
+        if not username:
+            return Response({"Error": "Username required to login."})
 
-        return Response(
-            {"Error": "Invalid credentials."},
-        )
+        if not password:
+            return Response({"Error": "Password required to login."})
+
+        user = User.objects.filter(username=username).first()
+        print(password)
+        print(user.password)
+
+        if password == user.password:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+
+        return Response({"Error": "Invalid credentials."})
