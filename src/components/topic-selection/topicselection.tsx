@@ -23,7 +23,7 @@ const topicselection = () => {
 
   const [selectedTopicIndex, setSelectedTopicIndices] = useState<number[]>([]);
   const [threeTopicsSelected, setThreeTopicsSelected] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true); // A little buggy, when first being use
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(false); // A little buggy, when first being use
 
 
   const handleButtonClick = (index: number) => {
@@ -53,19 +53,19 @@ const topicselection = () => {
     `${
       selectedTopicIndex.includes(index)
         ? "button-pressed shadow-none"
-        : "button-default shadow-gray"
+        : "button-default shadow-grey"
     } text-white font-bold py-2 px-4 rounded m-2 flex-wrap rounded-2xl`;
 
   useEffect(() => {
     const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 1024);
+      setIsLargeScreen(window.innerWidth > 1024); // Adjust the threshold as per your requirements
     };
+    handleResize();
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
-    // Cleanup event listener on component unmount
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -82,11 +82,11 @@ const topicselection = () => {
         <div className="flex flex-col space-y-10 md:space-y-0 lg:flex-row md:space-x-4 items-center justify-center">
           {/* Main */}
           <main className="w-full md:w-full lg:w-5/12 px-7 py-8 mb-auto text-center lg:px-0 lg:text-left">
-            <h1 className="text-7xl font-bold" style={{ color: "#C1A2CA" }}>
+            <h1 className="topicheader text-7xl font-bold" style={{ color: "#C1A2CA" }}>
               Welcome to Codr,
             </h1>
             <h2
-              className="text-4xl font-bold mt-4"
+              className="topicsubheader marker:text-5xl font-bold mt-4"
               style={{ color: "#3A6883" }}
             >
               What tech topics are you interested in?
@@ -95,7 +95,7 @@ const topicselection = () => {
             <div className="flex justify-center items-center">
             {isLargeScreen && threeTopicsSelected && (
               <button
-                className="join-button text-white font-300 py-2 px-6 rounded-xl disabled:opacity-50 mt-20"
+                className="join-button text-white font-300 py-2 px-6 rounded-xl disabled:opacity-50 mt-20 animate-fade-in"
                 disabled={!threeTopicsSelected}
                 onClick={() => navigate("/feed")}
               >
@@ -122,6 +122,7 @@ const topicselection = () => {
                 <div className="">{topic}</div>
               </button>
             ))}
+            
             <div className="flex justify-center items-center">
             {!isLargeScreen && threeTopicsSelected && (
               <button

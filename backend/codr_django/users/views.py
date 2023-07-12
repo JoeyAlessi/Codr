@@ -1,14 +1,12 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User  # django already has a built in user model
+from django.contrib.auth.models import User
 from django.contrib.auth.hashers import (
     make_password,
 )
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
-
 from Codr.backend.codr_django.users.models import UserInterest
 from .serializer import UserSerializer
 
@@ -46,33 +44,41 @@ class UserRegisterView(APIView):
 
 class UserLoginView(APIView):
     def post(self, request, *args, **kwargs):
-        username = request.data.get("username", "NONE")
-        password = request.data.get("password", "NONE")
+        username = request.data.get("username")
+        password = request.data.get("password")
 
-        if username != "NONE" and password != "NONE":
-            potential_username = User.objects.get(username=username)
-            first_id = potential_username.id
+        print("username", username)
+        print("password", password)
 
-            potential_password = User.objects.get(password=password)
-            second_id = potential_password.id
+        if not username and not password:
+            return Response({"Error": "Username and password required to login."})
 
-            if first_id == second_id:  # user exists
-                return Response({"Message": "User Exists"})
+        if not username:
+            return Response({"Error": "Username required to login."})
 
-        return Response(
-            {"Error": "Invalid credentials."},
-        )
+        if not password:
+            return Response({"Error": "Password required to login."})
 
-    class UserInterestView(APIView):
-        def post(self, request, *args, **kwargs):
-            user = User.objects.get(username=request.data.get("user"))
-            topics = request.data.get("topics")
+        user = User.objects.filter(username=username).first()
+        print(password)
+        print(user.password)
 
-            user_interest = UserInterest.objects.create(user=user)
-            
+        if password == user.password:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
 
-
+        return Response({"Error": "Invalid credentials."})
 
 
+class UserInterestView(APIView):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        interests = request.data.get('interests')
+        user = User.objects.get(username=username)
 
-    
+        for interest in interests:
+            UserInterest.objects.create(user=user, topic=interest)
+        
+        return Response({"Message", "Interests updated"})
+
+
