@@ -14,7 +14,7 @@ const topicselection = () => {
   const navigate = useNavigate();
   // const username = useSelector((state: RootState) => state.user.username)
   const location = useLocation();
-  const username = location.state.username
+  const username = location.state.username;
   const topics = [
     "Programming Fundamentals",
     "Data Structures",

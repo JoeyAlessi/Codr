@@ -4,7 +4,7 @@ import LogoText from "../../assets/Logo/LogoText.png";
 import Text from "../../assets/Logo/Text.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import  TopicSelection from "../topic-selection/topicselection.tsx"
+import TopicSelection from "../topic-selection/topicselection.tsx";
 // import { useDispatch } from "react-redux";
 // import { setUsernameSlice } from "../../redux/userSlice";
 
@@ -26,9 +26,9 @@ export const RegisterLogin = () => {
         email: email, //objects sending to postgres db
         username: username,
         password: password,
-        confirmPass: confirmPass, // Password Confrim Variable
+        confirmPass: confirmPass, // Password Confirm Variable
       });
-      console.log(response)
+      console.log(response);
 
       if (response.data.Error) {
         setUsernameError(response.data.Error);
@@ -36,8 +36,7 @@ export const RegisterLogin = () => {
         setUsernameError("");
         // <TopicSelection
         // username={username}/>
-        navigate("/topic", {state: {username: username}});
-        
+        navigate("/topic", { state: { username: username } });
       }
     } catch (error) {
       console.error("error when registering user", error);

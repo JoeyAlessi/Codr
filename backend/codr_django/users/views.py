@@ -6,10 +6,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
+<<<<<<< HEAD
 from .serializer import UserSerializer
 from .models import UserInterest
 from django.contrib.auth.models import User
 from .models import Topic
+=======
+from .serializer import InterestSerializer, UserSerializer
+
+from .models import UserInterest
+from django.contrib.auth.models import User
+>>>>>>> e1ec075 (Working on UserInterests)
 
 
 class UserRegisterView(APIView):
@@ -31,6 +38,10 @@ class UserRegisterView(APIView):
         elif len(username) < 6:
             return Response(
                 {"Error": "Username must be at least 6 characters long"},
+            )
+        elif User.objects.filter(username=username).first():
+            return Response(
+                {"Error": "Username taken."},
             )
 
         user = User.objects.create_user(
@@ -69,6 +80,7 @@ class UserLoginView(APIView):
             serializer = UserSerializer(user)
             return Response(serializer.data)
 
+            user_interest = UserInterest.objects.create(user=user)
         return Response({"Error": "Invalid credentials."})
 
 
