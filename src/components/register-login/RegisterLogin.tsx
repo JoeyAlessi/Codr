@@ -84,6 +84,13 @@ export const RegisterLogin = () => {
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <div>
+                {credentialError && (
+                  <div className="text-red-500 text-xs mt-[-1rem] flex justify-center mb-[0.5rem]">
+                    {credentialError}
+                  </div>
+                )}
+              </div>
               <button
                 className="btn-login py-3 px-4 w-5/6 sm:w-3/4 text-white text-center mb-2"
                 onClick={loginUser}
@@ -127,13 +134,6 @@ export const RegisterLogin = () => {
                 onChange={(e) => setConPass(e.target.value)}
               />
               <div>
-                <div>
-                  {credentialError && (
-                    <div className="text-red-500 text-xs mt-[-1rem] flex justify-center mb-[0.5rem]">
-                      {credentialError}
-                    </div>
-                  )}
-                </div>
                 {usernameError && (
                   <div className="text-red-500 text-xs mt-[-1rem] flex justify-center mb-[0.5rem]">
                     {usernameError}

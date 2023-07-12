@@ -72,13 +72,11 @@ class UserLoginView(APIView):
 
 class UserInterestView(APIView):
     def post(self, request, *args, **kwargs):
-        username = request.data.get('username')
-        interests = request.data.get('interests')
+        username = request.data.get("username")
+        interests = request.data.get("interests")
         user = User.objects.get(username=username)
 
         for interest in interests:
             UserInterest.objects.create(user=user, topic=interest)
-        
+
         return Response({"Message", "Interests updated"})
-
-
