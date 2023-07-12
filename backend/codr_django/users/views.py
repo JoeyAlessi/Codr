@@ -8,6 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
+
+from Codr.backend.codr_django.users.models import UserInterest
 from .serializer import UserSerializer
 
 
@@ -60,3 +62,17 @@ class UserLoginView(APIView):
         return Response(
             {"Error": "Invalid credentials."},
         )
+
+    class UserInterestView(APIView):
+        def post(self, request, *args, **kwargs):
+            user = User.objects.get(username=request.data.get("user"))
+            topics = request.data.get("topics")
+
+            user_interest = UserInterest.objects.create(user=user)
+            
+
+
+
+
+
+    
