@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from rest_framework import serializers
-from .models import Topic
 
 # Create your models here.
 
@@ -20,8 +18,3 @@ class Topic(models.Model):
 class UserInterest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     topics = models.ManyToManyField(Topic)
-
-
-
-
-

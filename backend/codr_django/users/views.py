@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .serializer import InterestSerializer, UserSerializer
+from .serializer import UserSerializer
 from .models import UserInterest
 from django.contrib.auth.models import User
 from .models import Topic
@@ -84,10 +84,6 @@ class UserInterestView(APIView):
         for interest in interests:
             topic, created = Topic.objects.get_or_create(name=interest)
             user_interest.topics.add(topic)
-
-        user_interest = InterestSerializer(user_interest)
+            
         user_interest.save()
-        
         return Response({"Message", "Interests updated"})
-
-    
