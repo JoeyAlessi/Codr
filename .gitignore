@@ -8,7 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 __pycache__
 
-__pycache__
+__pycache__/
+backend/codr_django/codr_django/__pycache__
+backend/codr_django/codr_django/users
 node_modules
 dist
 dist-ssr

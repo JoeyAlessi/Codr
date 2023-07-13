@@ -6,17 +6,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
-<<<<<<< HEAD
-from .serializer import UserSerializer
-from .models import UserInterest
-from django.contrib.auth.models import User
-from .models import Topic
-=======
 from .serializer import InterestSerializer, UserSerializer
 
 from .models import UserInterest
 from django.contrib.auth.models import User
->>>>>>> e1ec075 (Working on UserInterests)
 
 
 class UserRegisterView(APIView):
