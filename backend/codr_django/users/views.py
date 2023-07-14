@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 from .serializer import InterestSerializer, UserSerializer
+from .models import TopicsOfInterest
 
-from .models import UserInterest
 from django.contrib.auth.models import User
 
 
@@ -37,9 +37,7 @@ class UserRegisterView(APIView):
                 {"Error": "Username taken."},
             )
 
-        user = User.objects.create_user(
-            username=username, email=email, password=password
-        )
+        user = User.objects.create(username=username, email=email, password=password)
 
         print("id:", user.id)
         user = UserSerializer(user)
@@ -73,24 +71,18 @@ class UserLoginView(APIView):
             serializer = UserSerializer(user)
             return Response(serializer.data)
 
-            user_interest = UserInterest.objects.create(user=user)
         return Response({"Error": "Invalid credentials."})
 
 
 class UserInterestView(APIView):
     def post(self, request, *args, **kwargs):
-        username = request.data.get("username")
-        user = User.objects.filter(username=username).first()
-        print("Username", username)
-        interests = request.data.get("interests")
-        print("Interests:", interests)
-        user = User.objects.get(username=username)
-        print("User:", user)
-        user_interest = UserInterest.objects.create(user=user)
+        user_name = request.data.get("username")
+        user_id = (User.objects.filter(username=user_name).first()).id
 
-        for interest in interests:
-            topic, created = Topic.objects.get_or_create(name=interest)
-            user_interest.topics.add(topic)
+        user_interests = request.data.get("interests")
 
-        user_interest.save()
+        user_interests = TopicsOfInterest.objects.create(
+            user_id=user_id, topics=user_interests
+        )
+
         return Response({"Message", "Interests updated"})
