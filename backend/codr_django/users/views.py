@@ -6,10 +6,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .serializer import UserSerializer
-from .models import UserInterest
+from .serializer import InterestSerializer, UserSerializer
+from .models import TopicsOfInterest
+
 from django.contrib.auth.models import User
-from .models import Topic
+
 
 class UserRegisterView(APIView):
     def post(self, request, *args, **kwargs):
@@ -31,10 +32,12 @@ class UserRegisterView(APIView):
             return Response(
                 {"Error": "Username must be at least 6 characters long"},
             )
+        elif User.objects.filter(username=username).first():
+            return Response(
+                {"Error": "Username taken."},
+            )
 
-        user = User.objects.create_user(
-            username=username, email=email, password=password
-        )
+        user = User.objects.create(username=username, email=email, password=password)
 
         print("id:", user.id)
         user = UserSerializer(user)
@@ -60,8 +63,9 @@ class UserLoginView(APIView):
             return Response({"Error": "Password required to login."})
 
         user = User.objects.filter(username=username).first()
-        print(password)
-        print(user.password)
+        print("User:", user)
+        print("Password:", password)
+        print("User.Password:", user.password)
 
         if password == user.password:
             serializer = UserSerializer(user)
@@ -72,18 +76,13 @@ class UserLoginView(APIView):
 
 class UserInterestView(APIView):
     def post(self, request, *args, **kwargs):
-        username = request.data.get("username")
-        user = User.objects.filter(username=username).first()
-        print("Username", username)
-        interests = request.data.get("interests")
-        print("Interests:", interests)
-        user = User.objects.get(username=username)
-        print("User:", user)
-        user_interest = UserInterest.objects.create(user=user)
+        user_name = request.data.get("username")
+        user_id = (User.objects.filter(username=user_name).first()).id
 
-        for interest in interests:
-            topic, created = Topic.objects.get_or_create(name=interest)
-            user_interest.topics.add(topic)
-            
-        user_interest.save()
+        user_interests = request.data.get("interests")
+
+        user_interests = TopicsOfInterest.objects.create(
+            user_id=user_id, topics=user_interests
+        )
+
         return Response({"Message", "Interests updated"})

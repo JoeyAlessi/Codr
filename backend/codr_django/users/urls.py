@@ -9,6 +9,4 @@ urlpatterns = [
     ),
     path("api/login", views.UserLoginView.as_view()),
     path("api/interests", UserInterestView.as_view()),
-
 ]
-
