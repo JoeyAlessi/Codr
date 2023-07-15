@@ -22,6 +22,5 @@ class User(models.Model):
     following = models.ManyToManyField(
         "self", symmetrical=False, related_name="followers", blank=True
     )
-
-
+    
 # created class topic to retrieve topics from frontend, assume it works for now

@@ -8,9 +8,10 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from .serializer import InterestSerializer, UserSerializer
 from .models import TopicsOfInterest
-
 from django.contrib.auth.models import User
-
+from django.contrib.auth import get_user_model
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 class UserRegisterView(APIView):
     def post(self, request, *args, **kwargs):
@@ -37,7 +38,7 @@ class UserRegisterView(APIView):
                 {"Error": "Username taken."},
             )
 
-        user = User.objects.create(username=username, email=email, password=password)
+        user = User.objects.create_user(username=username, email=email, password=password)
 
         print("id:", user.id)
         user = UserSerializer(user)
@@ -86,3 +87,4 @@ class UserInterestView(APIView):
         )
 
         return Response({"Message", "Interests updated"})
+

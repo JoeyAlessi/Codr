@@ -4,10 +4,8 @@ import LogoText from "../../assets/Logo/LogoText.png";
 import Text from "../../assets/Logo/Text.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import TopicSelection from "../topic-selection/topicselection.tsx";
-// import { useDispatch } from "react-redux";
-// import { setUsernameSlice } from "../../redux/userSlice";
-
+import { useDispatch } from 'react-redux';
+import { setUsernameRedux } from '../../redux/userSlice'
 export const RegisterLogin = () => {
   const navigate = useNavigate();
   const [register, setRegisterState] = useState(false);
@@ -19,7 +17,7 @@ export const RegisterLogin = () => {
   const [credentialError, setCredentialError] = useState("");
   // const [userId, setUserId] = useState(null);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const registerUser = async () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/register", {
@@ -34,8 +32,6 @@ export const RegisterLogin = () => {
         setUsernameError(response.data.Error);
       } else {
         setUsernameError("");
-        // <TopicSelection
-        // username={username}/>
         navigate("/topic", { state: { username: username } });
       }
     } catch (error) {
@@ -48,7 +44,6 @@ export const RegisterLogin = () => {
   const loginUser = async () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/login", {
-        //objects sending to postgres db
         username: username,
         password: password,
       });
@@ -56,13 +51,14 @@ export const RegisterLogin = () => {
         setCredentialError(response.data.Error);
       } else {
         setCredentialError("");
-        // dispatch(setUsernameSlice(username));
+        dispatch(setUsernameRedux(username));
         navigate("/feed");
       }
     } catch (error) {
       console.error("error when logging in", error);
     }
   };
+
 
   return (
     <div className="relative flex items-center justify-center h-screen w-screen bg-gradient">
