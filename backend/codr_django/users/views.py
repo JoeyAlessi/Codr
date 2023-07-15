@@ -37,7 +37,9 @@ class UserRegisterView(APIView):
                 {"Error": "Username taken."},
             )
 
-        user = User.objects.create(username=username, email=email, password=password)
+        user = User.objects.create_user(
+            username=username, email=email, password=password
+        )
 
         print("id:", user.id)
         user = UserSerializer(user)
@@ -77,9 +79,13 @@ class UserLoginView(APIView):
 class UserInterestView(APIView):
     def post(self, request, *args, **kwargs):
         user_name = request.data.get("username")
-        user_id = (User.objects.filter(username=user_name).first()).id
+        user_id = (
+            User.objects.filter(username=user_name).first()
+        ).id  # aquire user id to link to user
 
-        user_interests = request.data.get("interests")
+        user_interests = request.data.get(
+            "interests"
+        )  # user interests list sent from frontend
 
         user_interests = TopicsOfInterest.objects.create(
             user_id=user_id, topics=user_interests

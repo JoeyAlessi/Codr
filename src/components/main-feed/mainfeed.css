@@ -1,67 +1,92 @@
 .gradient-background-main {
-    background: linear-gradient(to bottom, #160E14, #3E3756, #54779C);
-    padding: 0;
-    margin: 0;
+  background: linear-gradient(to bottom, #160e14, #3e3756, #54779c);
+  padding: 0;
+  margin: 0;
+}
+
+.tab-active {
+  color: #3a6883 !important;
+}
+
+.underline-custom {
+  position: relative;
+  padding-bottom: 0.5em;
+}
+
+.underline-custom::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ecdada;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+
+.tab-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+  max-width: 30rem;
+}
+
+.tab-item {
+  cursor: pointer;
+  margin: 0 1rem;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.tab-item:hover {
+  transform: scale(1.1);
+}
+
+.tab-item.tab-active .underline-custom::after {
+  transform: scaleX(1);
+}
+
+.post-button {
+  background-color: #362d44;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Manrope";
+}
+
+.post-button:hover {
+  background-color: #4f4466;
+}
+
+.fade-out {
+  animation: fade-out 0.3s forwards;
+}
+
+.fade-in {
+  animation: fade-in 0.3s forwards;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
   }
-  
-  .tab-active {
-    color: #3A6883 !important;
+  to {
+    opacity: 0;
   }
-  
-  .underline-custom {
-    position: relative;
-    padding-bottom: 0.5em;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
-  
-  .underline-custom::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #ECDADA;
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.3s ease;
+  to {
+    opacity: 1;
   }
-  
-  .tab-container {
-    display: flex; 
-    justify-content: center; 
-    margin-top: 4rem;
-    max-width: 30rem;
-  }
-  
-  .tab-item {
-    cursor: pointer;
-    margin: 0 1rem;
-    padding: 0.25rem;
-    font-size: 1.5rem;
-    transition: all 0.3s ease;
-    user-select: none;
-  }
-  
-  .tab-item:hover {
-    transform: scale(1.1);
-  }
-  
-  .tab-item.tab-active .underline-custom::after {
-    transform: scaleX(1);
-  }
-  
-  .post-button {
-    background-color: #362D44;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-family: "Manrope";
-  }
-  
-  .post-button:hover {
-    background-color: #4f4466;
-  }
-  
+}
