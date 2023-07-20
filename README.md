@@ -13,23 +13,22 @@ Welcome to Codr, a Social Media application designed specifically for technology
 - **Advanced Tagging and Categorization:** TechConnectPro features an advanced tagging and categorization system, facilitating efficient search and discovery of relevant content based on specific technologies, topics, or areas of interest.
 - **Powerful Search Functionality:** Advanced search algorithms and filters enable users to quickly find relevant questions, answers, and discussions, reducing information overload and enhancing usability.
 - **Real-time Notifications:** Users receive real-time notifications and updates, ensuring they are promptly informed of relevant activities, such as responses to their questions or updates in their subscribed threads, promoting active user engagement and participation.
-- **Coding Standards and Testing:** TechConnectPro adheres to industry best practices, SOLID principles, and thorough testing methodologies, resulting in a highly maintainable, scalable, and reliable application.
 
 ## Getting Started
 
 To set up and run TechConnectPro locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/TechConnectPro.git`
+1. Clone the repository: `git clone https://github.com/your-username/Codr.git`
 2. Install dependencies: `npm install`
-3. Start the development server: `npm start`
-4. Open your browser and visit `http://localhost:3000` to access the application.
+3. Start the development server: `npm run dev`
+4. Open your browser and visit `http://localhost:5000` to access the application.
 
 Note: Ensure you have Node.js and npm (Node Package Manager) installed on your system.
 
 ## Contributing
 
-We welcome contributions from the community to make TechConnectPro even better. If you would like to contribute, please follow our [Contribution Guidelines](CONTRIBUTING.md).
+We welcome contributions from the community to make COdr even better. If you would like to contribute, please follow our [Contribution Guidelines](CONTRIBUTING.md).
 
 ## License
 
-TechConnectPro is released under the [MIT License](LICENSE). Feel free to use, modify, and distribute the code as per the terms.
+Codr is released under the [MIT License](LICENSE). Feel free to use, modify, and distribute the code as per the terms.
