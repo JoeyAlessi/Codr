@@ -39,6 +39,7 @@ def get_tokens_for_user(user):
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
+        print("REQUEST", request.COOKIES)
         data = request.data
         response = Response()
         username = request.data.get("username", None)
@@ -126,8 +127,8 @@ class UserRegisterView(APIView):
         }  # payload for jwt token
         token = jwt.encode(payload=payload_data, key=secret_key)
 
-        # refresh = RefreshToken.for_user(user)
-        # user_token = str(refresh.access_token)
+        refresh = RefreshToken.for_user(user)
+        user_token = str(refresh.access_token)
 
         response = HttpResponse("Register Successful")
         response.set_cookie(key="jwt_token", value=token)
@@ -145,6 +146,7 @@ class UserLoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, format=None):
+        print("REQUEST", request.COOKIES)
         print("RECEIVED REQUEST")
         data = request.data
         response = Response()
@@ -205,6 +207,7 @@ class RegisterView(APIView):
             samesite="none",
             secure=True,
         )
+        print("COOKIES", response.cookies)
 
         return response
 

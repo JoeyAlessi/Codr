@@ -11,7 +11,7 @@ urlpatterns = [
     #     "api/register",
     #     views.UserRegisterView.as_view(),
     # ),
-    path("api/login", views.LoginView.as_view()),
+    path("api/login", views.UserLoginView.as_view()),
     path("api/register", views.RegisterView.as_view()),
     path("api/interests", UserInterestView.as_view()),
     path(
