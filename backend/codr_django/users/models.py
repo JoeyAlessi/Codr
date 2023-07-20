@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 
-# Create your models here.
-
 
 # created class topic to retrieve topics from frontend, assume it works for now
 class TopicsOfInterest(models.Model):
@@ -22,5 +20,18 @@ class User(models.Model):
     following = models.ManyToManyField(
         "self", symmetrical=False, related_name="followers", blank=True
     )
-    
-# created class topic to retrieve topics from frontend, assume it works for now
+
+
+class Post(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+    # users_liked = models.ManyToManyField(User, related_name="posts_liked", through="Vote") idk how to implement
+    title = models.CharField(max_length=50)
+    content = models.CharField(max_length=2000, default="", blank=True, null=True)
+    # likes = models.IntegerField(default=0, blank=True, null=True) idk how to implement
+    # comments = models.CharField(default=0, blank=True, null=True) idk how to implement
+    date = models.DateTimeField(auto_now_add=True, blank=True, null=True)

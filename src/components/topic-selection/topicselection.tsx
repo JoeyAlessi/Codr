@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
 import "./topicselection.css";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { useSelector } from "react-redux/es/hooks/useSelector";
 // import { RootState } from "../../redux/store";
 import axios from "axios";
-
-// export type TopicSelectionProps = {
-//   username: string
-// }
+import { useAppSelector } from "../../redux/store";
 
 const topicselection = () => {
   const navigate = useNavigate();
-  // const username = useSelector((state: RootState) => state.user.username)
-  const location = useLocation();
-  const username = location.state.username;
+  const username = useAppSelector((state) => state.user.username);
+
   const topics = [
     "Programming Fundamentals",
     "Data Structures",
@@ -56,7 +52,6 @@ const topicselection = () => {
   };
 
   const joinCodr = async () => {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
     const selectedTopics = selectedTopicIndex.map((index) => topics[index]);
     console.log(selectedTopics);
 
@@ -67,8 +62,6 @@ const topicselection = () => {
     navigate("/feed");
   };
 
-  //rgb for pressed button:
-  // const buttonClassName = `${isPressed ? 'shadow-none' : 'shadow'} ${isPressed ? 'bg-blue-700' : 'bg-blue-400'} text-white font-bold py-2 px-4 border-b-4 border-blue-700 rounded`
   const buttonClassName = (index: number) =>
     `${
       selectedTopicIndex.includes(index)
