@@ -79,9 +79,7 @@ class UserRegisterView(APIView):
         serialized_user = UserSerializer(user).data
 
         # Set the JWT token as a cookie
-        response = JsonResponse(
-            {"Message": "Register Successful", "User": serialized_user}
-        )
+        response = Response({"Message": "Register Successful", "User": serialized_user})
         response.set_cookie(
             key=settings.SIMPLE_JWT["AUTH_COOKIE"],
             value=token,
@@ -90,68 +88,76 @@ class UserRegisterView(APIView):
             secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
             expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
         )
-        print("COOKIES:", response.cookies)
+        print("COOKIES", response.cookies)
+        print(response.__dict__)
+
         return response
 
 
 class UserLoginView(APIView):
     def post(self, request, *args, **kwargs):
         print("COOKIE", request.COOKIES)
-        return Response()
-        # username = request.data.get("username")
-        # password = request.data.get("password")
+        username = request.data.get("username")
+        password = request.data.get("password")
 
-        # print("username", username)
-        # print("password", password)
+        print("username", username)
+        print("password", password)
 
-        # if not username and not password:
-        #     return Response(
-        #         {"Error": "Both username and password required."},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
+        if not username and not password:
+            return Response(
+                {"Error": "Both username and password required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        # if not username:
-        #     return Response(
-        #         {"Error": "Username required to login."},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
+        if not username:
+            return Response(
+                {"Error": "Username required to login."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        # if not password:
-        #     return Response(
-        #         {"Error": "Password required to login."},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
+        if not password:
+            return Response(
+                {"Error": "Password required to login."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        # user = authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password)
 
-        # if user:
-        #     print("USER:", user)
-        #     print("PASSWORD:", password)
+        if user:
+            print("USER:", user)
+            print("PASSWORD:", password)
 
-        #     if request.COOKIES:
-        #         serialized_user = UserSerializer(user).data
-        #         refresh = RefreshToken.for_user(user)
-        #         token = str(refresh.access_token)
-        #         response = HttpResponse(
-        #             {"Message": "Login Successful", "User": serialized_user}
-        #         )
+            if request.COOKIES:
+                decoded_key = jwt.decode(
+                    jwt=request.COOKIES["JWT_TOKEN"],
+                    key="JWT_TOKEN",
+                    algorithms="HS256",
+                )
+                print("DECODED_KEY", decoded_key)
 
-        #         response.set_cookie(
-        #             key=settings.SIMPLE_JWT["AUTH_COOKIE"],
-        #             value=token,
-        #             httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
-        #             samesite=settings.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
-        #             secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
-        #             expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
-        #         )
-        #         return response
-        #     else:
-        #         return Response()
-        # else:
-        #     return Response(
-        #         {"Error": "Invalid Credentials."},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
+            #     serialized_user = UserSerializer(user).data
+            #     refresh = RefreshToken.for_user(user)
+            #     token = str(refresh.access_token)
+            #     response = HttpResponse(
+            #         {"Message": "Login Successful", "User": serialized_user}
+            #     )
+
+            #     response.set_cookie(
+            #         key=settings.SIMPLE_JWT["AUTH_COOKIE"],
+            #         value=token,
+            #         httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
+            #         samesite=settings.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
+            #         secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
+            #         expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
+            #     )
+            #     return response
+            # else:
+            #     return Response()
+        else:
+            return Response(
+                {"Error": "Invalid Credentials."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class UserInterestView(APIView):

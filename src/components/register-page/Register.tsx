@@ -20,12 +20,16 @@ export const Register = () => {
 
   const registerUser = async () => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/register", {
-        email: email, //objects sending to postgres db
-        username: username,
-        password: password,
-        confirmPass: confirmPass, // Password Confirm Variable
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/register",
+        {
+          email: email, //objects sending to postgres db
+          username: username,
+          password: password,
+          confirmPass: confirmPass, // Password Confirm Variable
+        },
+        { withCredentials: true }
+      );
       console.log("RESPONSE", response);
       // if successful
       dispatch(UserActions.setUsername(username));

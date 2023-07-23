@@ -17,10 +17,14 @@ export const Login = () => {
 
   const loginUser = async () => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/login", {
-        username: username,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/login",
+        {
+          username: username,
+          password: password,
+        },
+        { withCredentials: true }
+      );
       // if successful
       console.log(response.data);
       setCredentialError("");
