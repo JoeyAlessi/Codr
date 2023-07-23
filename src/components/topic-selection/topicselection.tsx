@@ -54,6 +54,7 @@ const topicselection = () => {
   const joinCodr = async () => {
     const selectedTopics = selectedTopicIndex.map((index) => topics[index]);
     console.log(selectedTopics);
+    console.log("USERNAME", username);
 
     await axios.post("http://127.0.0.1:8000/api/interests", {
       username: username,

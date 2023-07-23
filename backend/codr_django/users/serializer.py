@@ -6,7 +6,7 @@ from .models import TopicsOfInterest, Post
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email")
+        fields = ["id", "username", "email"]
 
 
 class InterestSerializer(serializers.ModelSerializer):

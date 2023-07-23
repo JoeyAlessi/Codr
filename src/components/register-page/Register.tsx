@@ -5,9 +5,12 @@ import Text from "../../assets/Logo/Text.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Login } from "../login-page/Login";
+import { UserActions } from "../../redux/userSlice";
+import { useAppDispatch } from "../../redux/store";
 
 export const Register = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [register, setRegisterState] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -23,15 +26,14 @@ export const Register = () => {
         password: password,
         confirmPass: confirmPass, // Password Confirm Variable
       });
+      console.log("RESPONSE", response);
       // if successful
-
-      // Cookies.set("jwtToken", response.data.jwt_token, { expires: 7 }); // The cookie will expire in 7 days
-      // localStorage.setItem("jwt_token", response.data.jwt_token);
+      dispatch(UserActions.setUsername(username));
       setUsernameError("");
       navigate("/topic");
     } catch (error: any) {
       // error must be of type any
-      // updated error handling for overall better functionality
+      console.log("ERROR", error);
       console.error(error.response.data.Error);
       setUsernameError(error.response.data.Error);
     }
