@@ -2,14 +2,10 @@ import { useEffect, useState } from "react";
 import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
 import "./topicselection.css";
 import { useNavigate } from "react-router-dom";
-// import { useSelector } from "react-redux/es/hooks/useSelector";
-// import { RootState } from "../../redux/store";
 import axios from "axios";
-import { useAppSelector } from "../../redux/store";
 
 const topicselection = () => {
   const navigate = useNavigate();
-  const username = useAppSelector((state) => state.user.username);
 
   const topics = [
     "Programming Fundamentals",
@@ -54,10 +50,10 @@ const topicselection = () => {
   const joinCodr = async () => {
     const selectedTopics = selectedTopicIndex.map((index) => topics[index]);
     console.log(selectedTopics);
-    console.log("USERNAME", username);
+    // console.log("USERNAME", username);
 
     await axios.post("http://127.0.0.1:8000/api/interests", {
-      username: username,
+      // username: username,
       interests: selectedTopics,
     });
     navigate("/feed");

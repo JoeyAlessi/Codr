@@ -7,24 +7,13 @@ from .serializer import PostSerializer, UserSerializer
 from .models import Post, TopicsOfInterest
 from django.contrib.auth.models import User
 import jwt
-from dotenv import load_dotenv  # used for accessing secret key
-import os
-import datetime
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.middleware import csrf
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from django.conf import settings
 from rest_framework import status
-from rest_framework.permissions import AllowAny
-
-# Load variables from .env file into environment variables
-load_dotenv()
-
-# Access environment variables
-secret_key = os.getenv("SECRET_KEY")
 
 
 class UserInfo(APIView):
@@ -63,19 +52,21 @@ class UserRegisterView(APIView):
                 {"Error": "Username taken."},
                 status=status.HTTP_409_CONFLICT,
             )
-        # elif User.objects.filter(email=user_email).exists():
-        #     return Response(
-        #         {"Error": "Email already in use."},
-        #         status=status.HTTP_409_CONFLICT,
-        #     )
+        elif User.objects.filter(email=user_email).exists():
+            return Response(
+                {"Error": "Email already in use."},
+                status=status.HTTP_409_CONFLICT,
+            )
 
         user = User.objects.create_user(
             username=user_name, email=user_email, password=user_password
         )  # Automatically creates user ID
 
-        # Create JWT token for new user
+        # Create JWT token for new user using User Table
         refresh = RefreshToken.for_user(user)
         token = str(refresh.access_token)
+
+        print("TOKEN", token)
         serialized_user = UserSerializer(user).data
 
         # Set the JWT token as a cookie
@@ -89,19 +80,17 @@ class UserRegisterView(APIView):
             expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
         )
         print("COOKIES", response.cookies)
-        print(response.__dict__)
 
         return response
 
 
 class UserLoginView(APIView):
     def post(self, request, *args, **kwargs):
-        print("COOKIE", request.COOKIES)
         username = request.data.get("username")
         password = request.data.get("password")
 
-        print("username", username)
-        print("password", password)
+        print("USERNAME", username)
+        print("PASSWORD", password)
 
         if not username and not password:
             return Response(
@@ -121,42 +110,57 @@ class UserLoginView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        user = authenticate(username=username, password=password)
+        user = User.objects.filter(username=username).first()
+        print("USER", user)
 
-        if user:
+        if user is None:
+            return Response(
+                data="Username not found.", status=status.HTTP_411_LENGTH_REQUIRED
+            )
+
+        if check_password(password, user.password):
             print("USER:", user)
             print("PASSWORD:", password)
 
-            if request.COOKIES:
-                decoded_key = jwt.decode(
-                    jwt=request.COOKIES["JWT_TOKEN"],
-                    key="JWT_TOKEN",
-                    algorithms="HS256",
-                )
-                print("DECODED_KEY", decoded_key)
+        refresh = RefreshToken.for_user(user)
+        token = str(refresh.access_token)
 
-            #     serialized_user = UserSerializer(user).data
-            #     refresh = RefreshToken.for_user(user)
-            #     token = str(refresh.access_token)
-            #     response = HttpResponse(
-            #         {"Message": "Login Successful", "User": serialized_user}
-            #     )
+        print("TOKEN", token)
+        serialized_user = UserSerializer(user).data
 
-            #     response.set_cookie(
-            #         key=settings.SIMPLE_JWT["AUTH_COOKIE"],
-            #         value=token,
-            #         httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
-            #         samesite=settings.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
-            #         secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
-            #         expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
-            #     )
-            #     return response
-            # else:
-            #     return Response()
+        # Set the JWT token as a cookie
+        response = Response({"Message": "Login Successful", "User": serialized_user})
+        response.set_cookie(
+            key=settings.SIMPLE_JWT["AUTH_COOKIE"],
+            value=token,
+            httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
+            samesite=settings.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
+            secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
+            expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
+        )
+        print("COOKIES", response.cookies)
+
+        return response
+
+
+class AuthenticateTokenView(APIView):
+    def post(self, request, *args, **kwargs):
+        jwt_token = request.COOKIES["JWT_TOKEN"]
+
+        # if Cookies exist, decode cookie and return user info
+        if jwt_token:
+            token = str(jwt_token)
+            decoded_key = jwt.decode(
+                jwt=token,
+                key=settings.SIMPLE_JWT["AUTH_COOKIE"],
+                algorithms="HS256",
+            )
+            print("DECODED_KEY", decoded_key)
+            return Response({"Message": "User cookie found.", "User": decoded_key})
+        # else user has no token and return nothing
         else:
             return Response(
-                {"Error": "Invalid Credentials."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"Error": "No token found."}, status=status.HTTP_400_BAD_REQUEST
             )
 
 

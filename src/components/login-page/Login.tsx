@@ -1,21 +1,27 @@
 import { useState } from "react";
-import { UserActions } from "../../redux/userSlice";
+import { UserActions } from "../../redux/reducers/user";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import LogoText from "../../assets/Logo/LogoText.png";
 import Text from "../../assets/Logo/Text.png";
 import { Register } from "../register-page/Register";
+import { User } from "../../services/types";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch(); // keeping strict types
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [credentialError, setCredentialError] = useState("");
   const [register, setRegisterState] = useState(false);
 
+  // const user_info2 = useSelector((state: UserState) => state); bad implementation
+  const user_info = useAppSelector((state) => state.userState);
+  console.log("USER_STATE", user_info);
+
   const loginUser = async () => {
+    // where i should move it?
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/login",
@@ -25,12 +31,20 @@ export const Login = () => {
         },
         { withCredentials: true }
       );
-      // if successful
-      console.log(response.data);
+      // if successful fill redux and navigate to feed page
+      console.log("RESPONSE", response);
+      const userInfo: User = {
+        id: response.data.User.id,
+        username: response.data.User.username,
+        email: response.data.User.email,
+      };
+
+      dispatch({ type: UserActions.Login, payload: { user: userInfo } });
+
       setCredentialError("");
-      dispatch(UserActions.setUsername(username));
       navigate("/feed");
     } catch (error: any) {
+      console.log("ERROR", error);
       console.error(error.response.data.Error);
       setCredentialError(error.response.data.Error);
     }

@@ -5,12 +5,13 @@ import Text from "../../assets/Logo/Text.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Login } from "../login-page/Login";
-import { UserActions } from "../../redux/userSlice";
-import { useAppDispatch } from "../../redux/store";
+import { UserActions } from "../../redux/reducers/user";
+import { useDispatch } from "react-redux";
+import { User } from "../../services/types";
 
 export const Register = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const [register, setRegisterState] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -30,9 +31,17 @@ export const Register = () => {
         },
         { withCredentials: true }
       );
+      // if successful fill redux and navigate to topics page
       console.log("RESPONSE", response);
-      // if successful
-      dispatch(UserActions.setUsername(username));
+
+      const userInfo: User = {
+        id: response.data.User.id,
+        username: response.data.User.username,
+        email: response.data.User.email,
+      };
+
+      dispatch({ type: UserActions.SignUp, payload: { user: userInfo } });
+
       setUsernameError("");
       navigate("/topic");
     } catch (error: any) {

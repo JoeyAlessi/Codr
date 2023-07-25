@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./mainfeed.css";
 import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState, useAppSelector } from "../../redux/store";
 import axios from "axios";
+import { useAppSelector } from "../../redux/store";
 
 interface Post {
   title: string;
   content: string;
-  username: string;
+  // username: string;
   // topic_tags: string[];
 }
 
+const username = useAppSelector((state) => state.userState.user?.username);
 const MainFeed = () => {
   const [activeTab, setActiveTab] = useState("For You");
   const [placeholder, setActivePlaceholder] = useState(
@@ -21,7 +21,6 @@ const MainFeed = () => {
   const [title, setTitle] = useState("");
   const [input, setInput] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
-  const username = useAppSelector((state) => state.user.username);
 
   const navigate = useNavigate();
 
@@ -41,10 +40,7 @@ const MainFeed = () => {
     //input.trim just checks to see if there is nothing in the input, if there is nothing do not allow the user to post
     if (input.trim() !== "") {
       //if u are confused on the ..., research spread operators in javascript
-      setPosts((prevPosts) => [
-        ...prevPosts,
-        { title: title, content: input, username: username },
-      ]);
+      setPosts((prevPosts) => [...prevPosts, { title: title, content: input }]);
       setInput("");
       setTitle("");
     }
@@ -75,10 +71,6 @@ const MainFeed = () => {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const response = axios.get("http://127.0.0.1:8000/api/userInfo");
   }, []);
 
   return (

@@ -11,6 +11,10 @@ urlpatterns = [
     path("api/register", views.UserRegisterView.as_view()),
     path("api/interests", UserInterestView.as_view()),
     path(
+        "api/authenticate",
+        views.AuthenticateTokenView.as_view(),
+    ),
+    path(
         "api/post",
         views.PostView.as_view(),
     ),
