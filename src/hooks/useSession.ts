@@ -7,6 +7,7 @@ import { User } from "../services/types";
 
 export const useSession = () => {
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
   useEffect(() => {
     // useEffect only takes sync functions, so have to create sync and call func inside useEffect
@@ -15,7 +16,10 @@ export const useSession = () => {
         // automatically will send token in post request
         const response = await axios.post(
           "http://127.0.0.1:8000/api/authenticate",
-          {}
+          {},
+          // needs with credentials to send http only cookies
+          // but do we need it also to send :think
+          { withCredentials: true }
         );
         // if user cookie exists, populate redux with cookie info and send to feed page
         console.log("RESPONSE", response);

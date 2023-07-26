@@ -4,6 +4,7 @@ import { Login } from "./components/login-page/Login";
 import MainFeed from "./components/main-feed/mainfeed";
 import TopicSelect from "./components/topic-selection/topicselection";
 import { useSession } from "./hooks/useSession";
+import SessionManager from "./SessionManager";
 
 // TODO
 // call useSession around Router tags b/c usage of useNavigate within useSession
@@ -11,12 +12,16 @@ import { useSession } from "./hooks/useSession";
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sign" element={<Login />} />
-        <Route path="/feed" element={<MainFeed />} />
-        <Route path="/topic" element={<TopicSelect />} />
-      </Routes>
+      <SessionManager>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/sign" element={<Login />} />
+          <Route path="/feed" element={<MainFeed />} />
+          <Route path="/topic" element={<TopicSelect />} />
+        </Routes>
+      </SessionManager>
+
+      {/* </SessionManager> */}
     </Router>
   );
 };

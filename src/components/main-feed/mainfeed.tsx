@@ -12,8 +12,8 @@ interface Post {
   // topic_tags: string[];
 }
 
-const username = useAppSelector((state) => state.userState.user?.username);
 const MainFeed = () => {
+  const username = useAppSelector((state) => state.userState.user?.username);
   const [activeTab, setActiveTab] = useState("For You");
   const [placeholder, setActivePlaceholder] = useState(
     "Ask anything about computer science..."

@@ -37,7 +37,6 @@ export const userStateReducer = (
 ) => {
   switch (action.type) {
     case UserActions.Login:
-      console.log(state);
       return {
         ...state,
         user: action.payload.user,

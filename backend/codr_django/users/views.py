@@ -63,16 +63,20 @@ class UserRegisterView(APIView):
         )  # Automatically creates user ID
 
         # Create JWT token for new user using User Table
-        refresh = RefreshToken.for_user(user)
-        token = str(refresh.access_token)
+        serialized_user = UserSerializer(user).data
+
+        token = jwt.encode(
+            key=settings.SIMPLE_JWT["SIGNING_KEY"],
+            algorithm="HS256",
+            payload=serialized_user,
+        )
 
         print("TOKEN", token)
-        serialized_user = UserSerializer(user).data
 
         # Set the JWT token as a cookie
         response = Response({"Message": "Register Successful", "User": serialized_user})
         response.set_cookie(
-            key=settings.SIMPLE_JWT["AUTH_COOKIE"],
+            key=settings.SIMPLE_JWT["SIGNING_KEY"],
             value=token,
             httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
             samesite=settings.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
@@ -122,11 +126,15 @@ class UserLoginView(APIView):
             print("USER:", user)
             print("PASSWORD:", password)
 
-        refresh = RefreshToken.for_user(user)
-        token = str(refresh.access_token)
+        serialized_user = UserSerializer(user).data
+
+        token = jwt.encode(
+            key=settings.SIMPLE_JWT["SIGNING_KEY"],
+            algorithm="HS256",
+            payload=serialized_user,
+        )
 
         print("TOKEN", token)
-        serialized_user = UserSerializer(user).data
 
         # Set the JWT token as a cookie
         response = Response({"Message": "Login Successful", "User": serialized_user})
@@ -144,15 +152,19 @@ class UserLoginView(APIView):
 
 
 class AuthenticateTokenView(APIView):
+    # >:(
     def post(self, request, *args, **kwargs):
-        jwt_token = request.COOKIES["JWT_TOKEN"]
+        jwt_token = request.COOKIES.get(settings.SIMPLE_JWT["AUTH_COOKIE"])
+        print("COOKIE c=8", request.COOKIES)
 
         # if Cookies exist, decode cookie and return user info
-        if jwt_token:
+        if jwt_token is not None:
             token = str(jwt_token)
+            print("TOKEN", token)
+
             decoded_key = jwt.decode(
                 jwt=token,
-                key=settings.SIMPLE_JWT["AUTH_COOKIE"],
+                key=settings.SIMPLE_JWT["SIGNING_KEY"],
                 algorithms="HS256",
             )
             print("DECODED_KEY", decoded_key)
