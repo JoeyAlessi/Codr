@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./mainfeed.css";
 import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
+import profile from "../../assets/profile.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAppSelector } from "../../redux/store";
@@ -75,12 +76,21 @@ const MainFeed = () => {
 
   return (
     <div className="relative flex flex-col justify-start items-center min-h-screen w-screen gradient-background-main">
-      <div onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+      <div>
         <img
+          onClick={() => navigate("/")} 
+          style={{ cursor: "pointer" }}
           src={EmptyLogo}
           alt="Logo"
           className="absolute top-0 left-0 m-2 h-8 lg:h-[10vh]"
         />
+        <img
+          onClick={() => navigate("/profile")} 
+          style={{ cursor: "pointer" }}
+          src={profile}
+          alt="progial"
+          className="absolute top-0 right-0 m-5 h-4 lg:h-[6vh]"
+        />          
       </div>
       <div className="tab-container">
         <div

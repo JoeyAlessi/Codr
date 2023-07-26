@@ -91,7 +91,7 @@ const topicselection = () => {
 
         <div className="flex flex-col space-y-10 md:space-y-0 lg:flex-row md:space-x-4 items-center justify-center">
           {/* Main */}
-          <main className="w-full md:w-full lg:w-5/12 px-7 py-8 mb-auto text-center lg:px-0 lg:text-left">
+          <main className="w-full lg:w-5/12 px-7 py-8 mb-auto text-center lg:px-0 lg:text-left">
             <h1
               className="topicheader text-7xl font-bold"
               style={{ color: "#C1A2CA" }}

@@ -13,7 +13,7 @@ const Home = () => {
         <img
           src={EmptyLogo}
           alt="Logo"
-          className="absolute top-0 left-0 m-2 h-8 lg:h-[10vh] "
+          className="absolute top-0 left-0 m-2 h-[7vh] md:h-[8vh] lg:h-[10vh] "
         />
         <div className="container-for-header-animation">
           {" "}
