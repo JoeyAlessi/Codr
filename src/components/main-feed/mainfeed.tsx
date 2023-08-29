@@ -75,24 +75,27 @@ const MainFeed = () => {
   }, []);
 
   return (
-    <div className="relative flex flex-col justify-start items-center min-h-screen w-screen gradient-background-main">
-      <div>
+    <div className="relative flex min-h-screen w-screen gradient-background-main">
+      {/* settings / account column */}
+      <div className="flex flex-col justify-start items-start h-screen w-1/5 border-r border-gray-500">
         <img
-          onClick={() => navigate("/")} 
+          onClick={() => navigate("/")}
           style={{ cursor: "pointer" }}
           src={EmptyLogo}
           alt="Logo"
-          className="absolute top-0 left-0 m-2 h-8 lg:h-[10vh]"
+          className="absolute top-0 left-0 m-2 h-8 lg:h-[8vh]"
         />
         <img
-          onClick={() => navigate("/profile")} 
+          onClick={() => navigate("/profile")}
           style={{ cursor: "pointer" }}
           src={profile}
-          alt="progial"
+          alt="profile"
           className="absolute top-0 right-0 m-5 h-4 lg:h-[6vh]"
-        />          
+        />
       </div>
-      <div className="tab-container">
+      {/* second container with post info and scroll capability */}
+      <div className="flex flex-col items-start h-screen w-8/12"></div>
+      {/* <div className="tab-container">
         <div
           className={`tab-item ${activeTab === "For You" ? "tab-active" : ""}`}
           onClick={() => handleTabClick("For You")}
@@ -105,8 +108,8 @@ const MainFeed = () => {
         >
           <div className="underline-custom">Explore</div>
         </div>
-      </div>
-      <div className="mt-6 bg-white bg-opacity-20 rounded-lg w-10/12 md:w-7/12 lg:w-5/12 p-4">
+      </div> */}
+      {/* <div className="mt-6 bg-white bg-opacity-20 rounded-lg w-10/12 md:w-7/12 lg:w-5/12 p-4">
         <h2 className="text-white text-xl">What's on your mind, {username}?</h2>
         <div className="flex flex-col justify-between items-start mt-2">
           <input
@@ -129,8 +132,8 @@ const MainFeed = () => {
             </button>{" "}
           </div>
         </div>
-      </div>
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+      </div> */}
+      {/* <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
         {posts.map((post, index) => (
           <div
             key={index}
@@ -141,7 +144,9 @@ const MainFeed = () => {
             <p>{post.content}</p>
           </div>
         ))}
-      </div>
+      </div> */}
+      {/* right-most column TBA */}
+      <div className="flex flex-col justify-start items-start h-screen w-1/5"></div>
     </div>
   );
 };
