@@ -31,6 +31,7 @@ export const useSession = () => {
 
         dispatch({ type: UserActions.Login, payload: { user: userInfo } });
 
+        
         navigate("/feed");
       } catch (error: any) {
         //. if no cookie exists, user must sign in manually

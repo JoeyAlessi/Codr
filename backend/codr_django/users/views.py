@@ -155,7 +155,7 @@ class AuthenticateTokenView(APIView):
     # >:(
     def post(self, request, *args, **kwargs):
         jwt_token = request.COOKIES.get(settings.SIMPLE_JWT["AUTH_COOKIE"])
-        print("COOKIE c=8", request.COOKIES)
+        print("COOKIE", request.COOKIES)
 
         # if Cookies exist, decode cookie and return user info
         if jwt_token is not None:

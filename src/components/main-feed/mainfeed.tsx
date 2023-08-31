@@ -5,6 +5,9 @@ import profile from "../../assets/profile.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAppSelector } from "../../redux/store";
+import { AiOutlineHome } from 'react-icons/ai';
+import {HiOutlineMagnifyingGlass} from "react-icons/hi2";
+
 
 interface Post {
   title: string;
@@ -77,21 +80,43 @@ const MainFeed = () => {
   return (
     <div className="relative flex min-h-screen w-screen gradient-background-main">
       {/* settings / account column */}
-      <div className="flex flex-col justify-start items-start h-screen w-1/5 border-r border-gray-500">
+      <div className="flex flex-col justify-start items-start h-screen w-1/6 border-r border-gray-500">
+        <div className="h-1/5 w-full">
         <img
-          onClick={() => navigate("/")}
-          style={{ cursor: "pointer" }}
           src={EmptyLogo}
           alt="Logo"
-          className="absolute top-0 left-0 m-2 h-8 lg:h-[8vh]"
+          className= "top-0 left-0 m-2 h-8 lg:h-[8vh]"
         />
-        <img
+        </div>
+        <div className="flex flex-col h-4/5 w-full"> {/*Using React Icons*/}
+          <div className="flex h-16 w-full">
+            <div className="w-1/3">
+              <AiOutlineHome size={38} className="ml-4" style={{color: 'white'}}/>
+            </div>
+            <div className="w-2/3 text-center mr-3 " style={{ fontFamily: 'Garamond', fontSize: '30px', color: 'white' }}>
+              Home
+            </div>
+          </div>
+
+          <div className="flex h-16 w-full">
+            <div className="w-1/3">
+              <HiOutlineMagnifyingGlass size={38} className="ml-4" style={{color: 'white'}}/>
+            </div>
+            <div className="w-2/3 text-center mr-3 " style={{ fontFamily: 'Garamond', fontSize: '30px', color: 'white' }}>
+              Search
+            </div>
+          </div>
+
+           {/* <img
           onClick={() => navigate("/profile")}
           style={{ cursor: "pointer" }}
           src={profile}
           alt="profile"
-          className="absolute top-0 right-0 m-5 h-4 lg:h-[6vh]"
-        />
+          className="top-0 left-0 m-4 h-4 lg:h-[6vh]"
+        /> */}
+
+        </div>
+       
       </div>
       {/* second container with post info and scroll capability */}
       <div className="flex flex-col items-start h-screen w-8/12"></div>
