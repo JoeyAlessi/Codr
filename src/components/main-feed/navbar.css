@@ -1,0 +1,15 @@
+@keyframes slideInFromLeft {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+  }
+  
+  /* Apply the animation to the element with the custom class */
+  .custom-transition-width {
+    animation: slideInFromLeft 0.3s ease-in-out; /* Adjust the animation duration as needed */
+  }
