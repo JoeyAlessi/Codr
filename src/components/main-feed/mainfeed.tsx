@@ -84,8 +84,8 @@ const MainFeed = () => {
   return (
     <div className="relative flex min-h-screen w-screen gradient-background-main">
       {/* NAVBAR COMPONENT RENDERED */}
-      <NavBar />
-      
+        <NavBar />
+  
       {/* second container with post info and scroll capability */}
       <div className="flex flex-col items-start h-screen w-8/12"></div>
       {/* <div className="tab-container">
