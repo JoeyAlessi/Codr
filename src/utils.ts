@@ -1,1 +1,1 @@
-export const run = <T>(f: () => T): T => f()
+export const run = <T>(f: () => T): T => f();
