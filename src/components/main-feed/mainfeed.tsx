@@ -87,7 +87,7 @@ const MainFeed = () => {
         <NavBar />
   
       {/* second container with post info and scroll capability */}
-      <div className="flex flex-col items-start h-screen w-8/12"></div>
+        <div className="flex flex-col items-start h-screen w-8/12 "></div>
       {/* <div className="tab-container">
         <div
           className={`tab-item ${activeTab === "For You" ? "tab-active" : ""}`}
@@ -101,8 +101,8 @@ const MainFeed = () => {
         >
           <div className="underline-custom">Explore</div>
         </div>
-      </div> */}
-      {/* <div className="mt-6 bg-white bg-opacity-20 rounded-lg w-10/12 md:w-7/12 lg:w-5/12 p-4">
+      </div> 
+       <div className="mt-6 bg-white bg-opacity-20 rounded-lg w-10/12 md:w-7/12 lg:w-5/12 p-4">
         <h2 className="text-white text-xl">What's on your mind, {username}?</h2>
         <div className="flex flex-col justify-between items-start mt-2">
           <input
@@ -125,8 +125,8 @@ const MainFeed = () => {
             </button>{" "}
           </div>
         </div>
-      </div> */}
-      {/* <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+      </div> 
+       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
         {posts.map((post, index) => (
           <div
             key={index}
@@ -139,7 +139,7 @@ const MainFeed = () => {
         ))}
       </div> */}
       {/* right-most column TBA */}
-      <div className="flex flex-col justify-start items-start h-screen w-1/5"></div>
+      <div className="flex flex-col justify-start items-start h-screen w-64 border-l border-gray-500 "></div>
     </div>
   );
 };

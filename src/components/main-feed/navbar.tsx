@@ -7,6 +7,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { HiOutlineCog, HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { useState, useEffect } from "react";
 import { run } from "../../utils";
+import { SearchBarTab } from "./searchTab";
 export const NavBar = () => {
   const navigate = useNavigate();
   const [handleSearchClick, setHandleSearchClick] = useState(false);
@@ -29,6 +30,7 @@ export const NavBar = () => {
     handleResize();
 
     window.addEventListener("resize", handleResize);
+    // return will remove the event listener when component unmounts 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -148,19 +150,11 @@ export const NavBar = () => {
           </div>
         </div>
       </div>
-
-      {/*Going to become seperate component*/}
-      <div
-        className={`flex w-96 custom-transition-width-left delay-700 rounded-tr-3xl rounded-br-3xl flex-col justify-start items-start h-screen transition-width  ease-in-out duration-300 border-black-500 border-r `}
-      >
-        <div className="black">
-          
-        </div>
-
-      </div>
+      <SearchBarTab/>
     </>
   ) : (
     <>
+    {/* run is defined in utils.ts and is designed to clean up turnary statements*/}
       {run(() => {
         if (isLargeScreen) {
           return (
@@ -378,6 +372,7 @@ export const NavBar = () => {
             </div>
           );
         } else {
+          // will add something in final else statement to render in future. Possibly navbar on bottom of screen or hamburger menus
           return <></>;
         }
       })}
