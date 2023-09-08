@@ -87,7 +87,7 @@ const MainFeed = () => {
         <NavBar />
   
       {/* second container with post info and scroll capability */}
-        <div className="flex flex-col items-start h-screen w-8/12 "></div>
+        <div className="flex flex-col items-start h-screen"></div>
       {/* <div className="tab-container">
         <div
           className={`tab-item ${activeTab === "For You" ? "tab-active" : ""}`}
@@ -139,7 +139,8 @@ const MainFeed = () => {
         ))}
       </div> */}
       {/* right-most column TBA */}
-      <div className="flex flex-col justify-start items-start h-screen w-64 border-l border-gray-500 "></div>
+      <div className="flex flex-col justify-start items-start h-screen  "></div>
+      {/* w-64 border-l border-gray-500 */}
     </div>
   );
 };

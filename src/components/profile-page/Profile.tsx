@@ -1,8 +1,8 @@
 import { useState } from "react";
 import LogoText from "../../assets/Logo/LogoText.png";
-import "./profile.css";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
 
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -13,7 +13,8 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-export const profile = () => {
+export const Profile = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -27,9 +28,10 @@ export const profile = () => {
     <div className="relative flex items-center justify-center min-h-screen w-screen bg-gradient">
       <div className="glass-box sm:w-9/12 md:w-11/12 h-5/6 lg:w-11/12 relative flex flex-col">
         <img
+          onClick={() => {navigate("/feed")}}
           src={LogoText}
           alt="Logo"
-          className="logo-top-left m-2 h-8 lg:h-[7vh]"
+          className="cursor-pointer logo-top-left m-2 h-8 lg:h-[7vh]"
         />
         <div className="text-center mt-8 underline text-3xl">Edit Profile</div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
@@ -131,4 +133,3 @@ export const profile = () => {
   );
 };
 
-export default profile;

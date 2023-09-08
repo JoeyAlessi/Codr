@@ -8,12 +8,13 @@ import { HiOutlineCog, HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { useState, useEffect } from "react";
 import { run } from "../../utils";
 import { SearchBarTab } from "./searchTab";
+
+
 export const NavBar = () => {
   const navigate = useNavigate();
   const [handleSearchClick, setHandleSearchClick] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
     function handleResize() {
@@ -21,11 +22,9 @@ export const NavBar = () => {
 
       const largeScreenThreshold = 1024;
       const mediumScreenThreshold = 768;
-      const smallScreenThreshold = 440;
 
       setIsLargeScreen(screenWidth >= largeScreenThreshold);
       setIsMediumScreen(screenWidth >= mediumScreenThreshold);
-      setIsSmallScreen(screenWidth >= smallScreenThreshold);
     }
     handleResize();
 
@@ -41,7 +40,7 @@ export const NavBar = () => {
       <div
         className={`hidden sm:flex w-16 min-w-[64px] flex-col justify-start items-start h-screen transition-width  ease-in-out duration-300 border-gray-500 border-r `}
       >
-        <div className="h-1/5 w-full">
+      <div className="h-1/5 w-full"> 
           <img
             src={EmptyLogo}
             alt="Logo"
@@ -94,9 +93,6 @@ export const NavBar = () => {
 
           <div className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
             <div
-              onClick={() => {
-                // click event code here
-              }}
               style={{
                 fontFamily: "Verdana",
                 fontSize: "20px",
@@ -111,11 +107,9 @@ export const NavBar = () => {
             </div>
           </div>
 
-          <div className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
+          <div onClick={() => {navigate("/profile")}
+        } className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
             <div
-              onClick={() => {
-                // click event code here
-              }}
               style={{
                 fontFamily: "Verdana",
                 fontSize: "20px",
@@ -132,9 +126,6 @@ export const NavBar = () => {
 
           <div className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
             <div
-              onClick={() => {
-                // click event code here
-              }}
               style={{
                 fontFamily: "Verdana",
                 fontSize: "20px",
@@ -150,7 +141,7 @@ export const NavBar = () => {
           </div>
         </div>
       </div>
-      <SearchBarTab/>
+      <SearchBarTab handleSearchProp={setHandleSearchClick}/>
     </>
   ) : (
     <>
@@ -159,7 +150,7 @@ export const NavBar = () => {
         if (isLargeScreen) {
           return (
             <div
-              className={`flex flex-col justify-start items-start h-screen w-64 transition-width ease-in-out duration-300 border-gray-500 border-r`}
+              className={`hidden lg:flex flex-col justify-start items-start h-screen w-64 transition-width ease-in-out duration-300 border-gray-500 border-r`}
             >
               <div className="h-1/5 w-full">
                 <img
@@ -224,6 +215,7 @@ export const NavBar = () => {
                   <div className="custom-transition-width-left">Post</div>
                 </div>
                 <div
+                  onClick={() => {navigate("/profile")}}
                   className="pl-4 hover: cursor-pointer group flex h-16 w-full items-center  hover:bg-gray-600 hover:rounded-md"
                   style={{
                     fontFamily: "Verdana",
@@ -314,9 +306,6 @@ export const NavBar = () => {
 
                 <div className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
                   <div
-                    onClick={() => {
-                      // Your click event code here
-                    }}
                     style={{
                       fontFamily: "Verdana",
                       fontSize: "20px",
@@ -331,11 +320,9 @@ export const NavBar = () => {
                   </div>
                 </div>
 
-                <div className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
+                <div onClick={() => {navigate("/profile")}}
+                className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
                   <div
-                    onClick={() => {
-                      // Your click event code here
-                    }}
                     style={{
                       fontFamily: "Verdana",
                       fontSize: "20px",
@@ -352,9 +339,6 @@ export const NavBar = () => {
 
                 <div className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
                   <div
-                    onClick={() => {
-                      // Your click event code here
-                    }}
                     style={{
                       fontFamily: "Verdana",
                       fontSize: "20px",
