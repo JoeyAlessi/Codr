@@ -1,135 +1,95 @@
-import { useState } from "react";
-import LogoText from "../../assets/Logo/LogoText.png";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
-
-import IconButton from "@mui/material/IconButton";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import "./Profile.css";
+import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
+import { AiOutlineHome } from "react-icons/ai";
+import { BiAddToQueue, BiCircle } from "react-icons/bi";
+import { BsCircleFill, BsFillPersonFill } from "react-icons/bs";
+import { HiOutlineCog, HiOutlineMagnifyingGlass } from "react-icons/hi2";
+import { useState, useEffect } from "react";
+import { run } from "../../utils";
+import { NavBar } from "../main-feed/navbar";
 
 export const Profile = () => {
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  const navBarWidth = 64; // used for calculations regarding outside divs
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
   return (
-    <div className="relative flex items-center justify-center min-h-screen w-screen bg-gradient">
-      <div className="glass-box sm:w-9/12 md:w-11/12 h-5/6 lg:w-11/12 relative flex flex-col">
-        <img
-          onClick={() => {navigate("/feed")}}
-          src={LogoText}
-          alt="Logo"
-          className="cursor-pointer logo-top-left m-2 h-8 lg:h-[7vh]"
-        />
-        <div className="text-center mt-8 underline text-3xl">Edit Profile</div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
-          {/* Left side */}
-          <div className="flex flex-col items-center">
-            {/* For user pfp */}
-            <div className="profile-picture m-16">
-              {/* Replace the background color with your profile picture */}
-            </div>
-            <button className="join-button text-white font-300 py-2 px-6 rounded-xl disabled:opacity-50">
-              Update
-            </button>
-          </div>
+    <div className="flex relative min-h-screen w-screen gradient-background-main">
+      <NavBar />
 
-          {/* Right Side */}
-          <div className="flex my-16 flex-col items-center">
-            <Box
-              component="form"
-              sx={{
-                "& .MuiTextField-root": { m: 1, width: "40vw" },
-                "& .MuiInputBase-root": { color: "white" },
-                "& .MuiInputLabel-root": { color: "white" },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "white", // Outline border color when not focused
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "gray", // Outline border color on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "gray", // Outline border color on focus
-                  },
-                },
-                "& .MuiSvgIcon-root": {
-                  color: "white", // Set the color of the icon to white
-                },
-              }}
-              noValidate
-              autoComplete="off"
-            >
-              <div>
-                <div className="text-xl">Profile:</div>
-                <TextField
-                  id="outlined-basic"
-                  label="Username"
-                  defaultValue=""
-                />
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Bio"
-                  multiline
-                  rows={4}
-                  defaultValue=""
-                />
-
-                <TextField id="outlined-basic" label="Email" defaultValue="" />
-                <div className="text-xl mt-2">Update Password:</div>
-                <FormControl sx={{ m: 1, width: "40vw" }} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Password
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? "text" : "password"}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Password"
-                  />
-                </FormControl>
-                <FormControl sx={{ m: 1, width: "40vw" }} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-confirm-password">
-                    Confirm Password
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-confirm-password"
-                    type={showPassword ? "text" : "password"}
-                    label="Confirm Password"
-                    inputProps={{
-                      style: { color: "white" },
-                    }}
-                  />
-                </FormControl>
+      {/* div holding account page styling */}
+      <div
+        style={{ width: `calc(100% - ${navBarWidth}px)` }}
+        className="flex justify-center items-center "
+      >
+        <div className="flex w-95-percent h-90-percent rounded-2xl bg-gray-600">
+          <div className="flex flex-row h-1/4 w-full rounded-2xl justify-center">
+            <div className="flex w-3/4 h-full">
+              <div className="flex w-1/3 h-full justify-center items-center">
+                <BsCircleFill size={140} style={{ color: "black" }} />
               </div>
-            </Box>
+
+              <div className="flex flex-col w-2/3 h-full pt-8 ">
+                <div
+                  style={{
+                    fontFamily: "Verdana",
+                    fontSize: "18px",
+                    color: "white",
+                  }}
+                  className="flex flex-row h-1/5 w-full "
+                >
+                  {/* USERNAME DIV */}
+                  <div
+                    style={{
+                      fontSize: "22px",
+                    }}
+                    className="w-1/5 flex justify-center"
+                  >
+                    Joe Alessi
+                  </div>
+
+                  <div className="w-2/5 flex justify-center">
+                    <button
+                      style={{
+                        fontFamily: "Verdana",
+                        fontSize: "18px",
+                        color: "black",
+                      }}
+                      className="flex items-center"
+                    >
+                      Edit Account
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex flex-row h-1/5 w-full "></div>
+
+                <div
+                  style={{
+                    fontFamily: "Verdana",
+                    fontSize: "18px",
+                    color: "white",
+                  }}
+                  className="flex flex-row h-1/5 w-full "
+                >
+                  {/* ACCOUNT INFO DIV */}
+
+                  <div className="w-1/5 flex justify-center">
+                    {/* {Add amount of posts before word} */}0 Posts
+                  </div>
+
+                  <div className="w-2/5 flex justify-center">
+                    {/* {Add amount of followers before word} */}0 Followers
+                  </div>
+
+                  <div className="w-1/5 flex justify-center">
+                    {/* {Add amount following before word} */}0 Following
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 };
-

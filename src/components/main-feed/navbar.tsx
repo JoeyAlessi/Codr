@@ -10,7 +10,10 @@ import { run } from "../../utils";
 import { SearchBarTab } from "./searchTab";
 
 
+
+
 export const NavBar = () => {
+  const navBarWidth = 64; // used for calculations regarding outside divs
   const navigate = useNavigate();
   const [handleSearchClick, setHandleSearchClick] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
