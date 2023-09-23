@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import "./mainfeed.css";
-import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
-import profile from "../../assets/profile.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAppSelector } from "../../redux/store";
-import { AiOutlineHome } from 'react-icons/ai';
-import {HiOutlineMagnifyingGlass} from "react-icons/hi2";
-import { BiAddToQueue } from "react-icons/bi";
-import {BsFillPersonFill} from "react-icons/bs"
-import { HiOutlineCog } from "react-icons/hi";
-import {NavBar} from "./navbar";
+import { NavBar } from "./navbar";
 
+type MainFeedProps = {
+  handleSearchClick: boolean;
+  setHandleSearchClick: Dispatch<SetStateAction<boolean>>;
+};
 
 interface Post {
   title: string;
@@ -22,6 +19,8 @@ interface Post {
 
 const MainFeed = () => {
   const username = useAppSelector((state) => state.userState.user?.username);
+  const [handleSearchClick, setHandleSearchClick] = useState(false);
+  const [makePost, setMakePost] = useState(false);
   const [activeTab, setActiveTab] = useState("For You");
   const [placeholder, setActivePlaceholder] = useState(
     "Ask anything about computer science..."
@@ -83,11 +82,18 @@ const MainFeed = () => {
 
   return (
     <div className="relative flex min-h-screen w-screen gradient-background-main">
+
       {/* NAVBAR COMPONENT RENDERED */}
-        <NavBar />
-  
+      <NavBar
+        handleSearchClick={handleSearchClick}
+        setHandleSearchClick={setHandleSearchClick}
+        makePost={makePost}
+        setMakePost={setMakePost}
+        
+      />
+
       {/* second container with post info and scroll capability */}
-        <div className="flex flex-col items-start h-screen"></div>
+      <div className="flex flex-col items-start h-screen"></div>
       {/* <div className="tab-container">
         <div
           className={`tab-item ${activeTab === "For You" ? "tab-active" : ""}`}

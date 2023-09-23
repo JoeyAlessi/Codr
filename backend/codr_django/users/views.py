@@ -152,7 +152,6 @@ class UserLoginView(APIView):
 
 
 class AuthenticateTokenView(APIView):
-    # >:(
     def post(self, request, *args, **kwargs):
         jwt_token = request.COOKIES.get(settings.SIMPLE_JWT["AUTH_COOKIE"])
         print("COOKIE", request.COOKIES)

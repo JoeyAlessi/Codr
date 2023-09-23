@@ -1,31 +1,33 @@
-import { useNavigate } from "react-router-dom";
 import "./Profile.css";
-import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
-import { AiOutlineHome } from "react-icons/ai";
-import { BiAddToQueue, BiCircle } from "react-icons/bi";
-import { BsCircleFill, BsFillPersonFill } from "react-icons/bs";
-import { HiOutlineCog, HiOutlineMagnifyingGlass } from "react-icons/hi2";
-import { useState, useEffect } from "react";
-import { run } from "../../utils";
+import { useState } from "react";
 import { NavBar } from "../main-feed/navbar";
+import { BsCircleFill } from "react-icons/bs";
 
 export const Profile = () => {
+  const [handleSearchClick, setHandleSearchClick] = useState(false);
+  const [makePost, setMakePost] = useState(false);
   const navBarWidth = 64; // used for calculations regarding outside divs
 
   return (
     <div className="flex relative min-h-screen w-screen gradient-background-main">
-      <NavBar />
+      <NavBar
+        handleSearchClick={handleSearchClick}
+        setHandleSearchClick={setHandleSearchClick}
+        makePost={makePost}
+        setMakePost={setMakePost}
+      />
+      {/* turnary statement to render transparent div */}
 
       {/* div holding account page styling */}
       <div
         style={{ width: `calc(100% - ${navBarWidth}px)` }}
         className="flex justify-center items-center "
       >
-        <div className="flex w-95-percent h-90-percent rounded-2xl bg-gray-600">
+        <div className="flex w-95-percent h-90-percent rounded-2xl bg-gray-600 ">
           <div className="flex flex-row h-1/4 w-full rounded-2xl justify-center">
             <div className="flex w-3/4 h-full">
               <div className="flex w-1/3 h-full justify-center items-center">
-                <BsCircleFill size={140} style={{ color: "black" }} />
+                <BsCircleFill size={140} style={{ color: "white" }} />
               </div>
 
               <div className="flex flex-col w-2/3 h-full pt-8 ">
@@ -42,7 +44,7 @@ export const Profile = () => {
                     style={{
                       fontSize: "22px",
                     }}
-                    className="w-1/5 flex justify-center"
+                    className="w-1/4 flex justify-center"
                   >
                     Joe Alessi
                   </div>
@@ -81,7 +83,7 @@ export const Profile = () => {
                     {/* {Add amount of followers before word} */}0 Followers
                   </div>
 
-                  <div className="w-1/5 flex justify-center">
+                  <div className="w-1/4 flex justify-center">
                     {/* {Add amount following before word} */}0 Following
                   </div>
                 </div>

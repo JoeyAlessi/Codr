@@ -27,11 +27,12 @@ export const useSession = () => {
           id: response.data.User.id,
           username: response.data.User.username,
           email: response.data.User.email,
+          followers: response.data.User.followers,
+          following: response.data.User.following,
         };
 
         dispatch({ type: UserActions.Login, payload: { user: userInfo } });
 
-        
         navigate("/feed");
       } catch (error: any) {
         //. if no cookie exists, user must sign in manually
