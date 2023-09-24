@@ -1,85 +1,21 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import "./mainfeed.css";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useAppSelector } from "../../redux/store";
 import { NavBar } from "./navbar";
 
-type MainFeedProps = {
-  handleSearchClick: boolean;
-  setHandleSearchClick: Dispatch<SetStateAction<boolean>>;
-};
-
-interface Post {
-  title: string;
-  content: string;
-  // username: string;
-  // topic_tags: string[];
-}
+// interface Post {
+//   title: string;
+//   content: string;
+//   // username: string;
+//   // topic_tags: string[];
+// }
 
 const MainFeed = () => {
-  const username = useAppSelector((state) => state.userState.user?.username);
+  // const username = useAppSelector((state) => state.userState.user?.username);
   const [handleSearchClick, setHandleSearchClick] = useState(false);
   const [makePost, setMakePost] = useState(false);
-  const [activeTab, setActiveTab] = useState("For You");
-  const [placeholder, setActivePlaceholder] = useState(
-    "Ask anything about computer science..."
-  );
-  const [title, setTitle] = useState("");
-  const [input, setInput] = useState("");
-  const [posts, setPosts] = useState<Post[]>([]);
 
-  const navigate = useNavigate();
-
-  const handleTabClick = (tab: React.SetStateAction<string>) => {
-    setActiveTab(tab);
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value);
-  };
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
-
-  const handlePostClick = async () => {
-    //input.trim just checks to see if there is nothing in the input, if there is nothing do not allow the user to post
-    if (input.trim() !== "") {
-      //if u are confused on the ..., research spread operators in javascript
-      setPosts((prevPosts) => [...prevPosts, { title: title, content: input }]);
-      setInput("");
-      setTitle("");
-    }
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/api/post", {
-        title: title, //objects sending to postgres db
-        content: input,
-        username: username,
-      });
-      console.log(response);
-    } catch (error) {
-      console.error("error while posting", error);
-    }
-  };
-
-  useEffect(() => {
-    //cycles through prompts every 3 seconds
-    const prompts = [
-      "computer science...",
-      "tech...",
-      "getting a tech job...",
-      "software engineering...",
-    ];
-    let activePrompt = 0;
-    const interval = setInterval(() => {
-      setActivePlaceholder(`Ask anything about ${prompts[activePrompt]}`);
-      activePrompt = activePrompt + 1 === prompts.length ? 0 : activePrompt + 1;
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
+ 
   return (
     <div className="relative flex min-h-screen w-screen gradient-background-main">
 

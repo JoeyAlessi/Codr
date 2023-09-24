@@ -18,7 +18,6 @@ export const useSession = () => {
           "http://127.0.0.1:8000/api/authenticate",
           {},
           // needs with credentials to send http only cookies
-          // but do we need it also to send :think
           { withCredentials: true }
         );
         // if user cookie exists, populate redux with cookie info and send to feed page

@@ -5,11 +5,3 @@ export type User = {
   followers: User[];
   following: User[];
 };
-
-export type Post = {
-  id: number;
-  description: string;
-  likes: number;
-  dislikes: number;
-  comments: string[];
-};

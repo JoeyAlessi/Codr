@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction } from "react";
 import { run } from "../../utils";
 import { SearchBarTab } from "./searchTab";
 import { useScreenSize } from "../../hooks/useScreenSize";
+import { PostCard } from "../posts/postcard";
 
 type NavBarProps = {
   handleSearchClick: boolean;
@@ -32,32 +33,12 @@ export const NavBar = ({
 
   return (
     <>
-      {/* top level div for post render */}
+      {/* Post Component */}
 
-      {makePost && (
-        <div
-          onClick={() => setMakePost(false)}
-          className="md:flex justify-center items-center absolute h-full w-full bg-black bg-opacity-40 z-50"
-        >
-          {/* actual post screen */}
-          <div
-            // stopPropagation prevents events from propagating to parent in DOM
-            onClick={(event) => event.stopPropagation()}
-            className="md:flex justify-center h-3/4 w-1/3 bg-white rounded-2xl"
-          >
-            <div
-              className="flex justify-center items-center border-b border-black h-16 w-full"
-              style={{
-                fontFamily: "Verdana",
-                fontSize: "20px",
-                color: "black",
-              }}
-            >
-              Create a Post
-            </div>
-          </div>
-        </div>
-      )}
+      <PostCard
+      makePost={makePost}
+      setMakePost={setMakePost}
+      />
 
       {handleSearchClick ? (
         <>
