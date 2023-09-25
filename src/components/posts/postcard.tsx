@@ -149,7 +149,11 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
             </div>
           </div>
         </div>
+        <div>
+          JOE
+        </div>
       </div>
+     
     )
   );
 };
