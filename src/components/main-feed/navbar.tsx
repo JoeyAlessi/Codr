@@ -9,7 +9,7 @@ import { Dispatch, SetStateAction } from "react";
 import { run } from "../../utils";
 import { SearchBarTab } from "./searchTab";
 import { useScreenSize } from "../../hooks/useScreenSize";
-import { PostCard } from "../posts/postcard";
+import { PostCard } from "../posts/postcard"
 
 type NavBarProps = {
   handleSearchClick: boolean;
@@ -24,7 +24,7 @@ export const NavBar = ({
   makePost,
   setMakePost,
 }: NavBarProps) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   // from custom hook useScreenSize
   // --- it is finding the size of the screen
   // --- could be used for readjusting screen size

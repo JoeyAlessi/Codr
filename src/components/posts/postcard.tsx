@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/store";
 
 export type Post = {
+  user_id: number | undefined;
+  
   title: string;
   input: string;
 };
@@ -16,6 +18,7 @@ type PostCardProps = {
 
 export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
   const username = useAppSelector((state) => state.userState.user?.username);
+  const id = useAppSelector((state) => state.userState.user?.id);
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -34,12 +37,13 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
   };
 
   const handlePostClick = async () => {
-    setPosts((prevPosts) => [...prevPosts, { title: title, input: input }]);
+    setPosts((prevPosts) => [...prevPosts, { user_id: id, post_id: rPost_id, title: title, input: input }]);
     setInput("");
     setTitle("");
 
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/post", {
+        user_id: id,
         title: title, //objects sending to postgres db
         content: input,
       });
@@ -149,11 +153,7 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
             </div>
           </div>
         </div>
-        <div>
-          JOE
-        </div>
       </div>
-     
     )
   );
 };

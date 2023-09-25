@@ -14,6 +14,6 @@ export const store = createStore(reducers);
 type Store = typeof store;
 type AppDispatch = Store["dispatch"];
 export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector = <T,>(
-  cb: (state: ReturnType<(typeof store)["getState"]>) => T
-) => useSelector(cb);
+
+
+export const useAppSelector = <T,>(cb: (state: ReturnType<(typeof store)["getState"]>) => T) => useSelector(cb);
