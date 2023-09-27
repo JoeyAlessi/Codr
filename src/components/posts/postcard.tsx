@@ -6,9 +6,9 @@ import { useAppSelector } from "../../redux/store";
 
 export type Post = {
   user_id: number | undefined;
-  
-  title: string;
-  input: string;
+  // post_id: number;
+  // title: string;
+  content: string;
 };
 
 type PostCardProps = {
@@ -32,25 +32,28 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
     setInput(event.target.value);
   };
 
+  // NEED TO IMPLEMENT LATER
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
   const handlePostClick = async () => {
-    setPosts((prevPosts) => [...prevPosts, { user_id: id, post_id: rPost_id, title: title, input: input }]);
-    setInput("");
-    setTitle("");
-
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/post", {
+        username: username,
         user_id: id,
-        title: title, //objects sending to postgres db
+        // title: title, //objects sending to postgres db
         content: input,
       });
-      console.log(response);
+      console.log("RESPONSE", response);
     } catch (error) {
       console.error("error while posting", error);
     }
+    // after post empty state variable 
+    setPosts((prevPosts) => [...prevPosts, { user_id: id,  content: input }]);
+    setInput("");
+    setTitle("");
+
   };
 
   useEffect(() => {
@@ -69,6 +72,8 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
 
     return () => clearInterval(interval);
   }, []);
+
+  const isInputEmpty = input.length == 0;
 
   return (
     makePost && (
@@ -141,6 +146,7 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
               <div className="flex h-full w-1/5 justify-center items-center">
                 <button
                   onClick={handlePostClick}
+                  disabled={isInputEmpty}
                   className={`px-4 py-2 rounded-2xl ${
                     input
                       ? "bg-blue-800 text-white"

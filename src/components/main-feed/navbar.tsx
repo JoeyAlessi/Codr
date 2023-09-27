@@ -10,6 +10,9 @@ import { run } from "../../utils";
 import { SearchBarTab } from "./searchTab";
 import { useScreenSize } from "../../hooks/useScreenSize";
 import { PostCard } from "../posts/postcard"
+import { useDispatch } from "react-redux";
+import { UserActions } from "../../redux/reducers/user";
+import { User } from "../../services/types";
 
 type NavBarProps = {
   handleSearchClick: boolean;
@@ -24,12 +27,17 @@ export const NavBar = ({
   makePost,
   setMakePost,
 }: NavBarProps) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   // from custom hook useScreenSize
   // --- it is finding the size of the screen
   // --- could be used for readjusting screen size
   const { isLargeScreen, isMediumScreen } = useScreenSize();
   const navBarWidth = 385; // used for calculations regarding outside divs
+
+  const c_user: User = {
+
+  }
 
   return (
     <>
@@ -58,7 +66,13 @@ export const NavBar = ({
               <img
                 src={EmptyLogo}
                 alt="Logo"
-                className="top-0 left-0 p-2 lg:h-[8vh] transition-height duration-300 ease-in-out"
+                className="top-0 left-0 p-2 lg:h-[8vh] cursor-pointer transition-height duration-300 ease-in-out"
+                onClick={() => {navigate("/")
+                localStorage.removeItem("JWT_TOKEN") 
+                console.log("LOGGED OUT")}
+                dispatch({ type: UserActions.Login, payload: {user: User} });
+              }
+                
               />
             </div>
 
@@ -140,7 +154,9 @@ export const NavBar = ({
                 </div>
               </div>
 
-              <div className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
+              <div 
+             
+              className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
                 <div
                   style={{
                     fontFamily: "Verdana",

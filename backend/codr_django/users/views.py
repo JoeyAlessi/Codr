@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializer import PostSerializer, UserSerializer
 from .models import Post, TopicsOfInterest
+# MAY ADD USER ABOVE TO USE OWN USER MODEL
 from django.contrib.auth.models import User
 import jwt
 from django.http import HttpResponse
@@ -191,18 +192,25 @@ class UserInterestView(APIView):
 
         return Response({"Message", "Interests updated"})
 
-
 class PostView(APIView):
     def post(self, request, *args, **kwargs):
-        user_name = request.data.get("username")
-        post_title = request.data.get("title")
+        print("request.data:", request.data)
+        
+        username = request.data.get("username")
+        user_id = request.data.get("user_id")
         post_content = request.data.get("content")
 
-        user_id = (User.objects.filter(username=user_name).first()).id
+        user = User.objects.get(username=username)
+        print("USER_ID" , user_id)
+        print("USER",user)
+        
+        if user is None:
+            return Response({"error": "User not found"}, status=status.HTTP_400_BAD_REQUEST)
 
         new_post = Post.objects.create(
-            user=user_id, title=post_title, content=post_content
-        )
+            user=user, content=post_content
+        )   
 
         serialized_post = PostSerializer(new_post)
-        return Response(serialized_post.data)
+        return Response(serialized_post.data, status=status.HTTP_201_CREATED)
+        
