@@ -1,0 +1,13 @@
+.gradient-background-main {
+    background: linear-gradient(to bottom, #160E14, #3E3756, #54779C);
+    padding: 0;
+    margin: 0;
+  }
+
+  .w-95-percent {
+    width: 95%;
+  }
+  
+  .h-90-percent {
+    height: 90%;
+  }

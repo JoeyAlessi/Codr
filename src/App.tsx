@@ -1,17 +1,29 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/landing-page/Home";
-import { RegisterLogin } from "./components/register-login/RegisterLogin";
+import { Login } from "./components/login-page/Login";
 import MainFeed from "./components/main-feed/mainfeed";
+// import Profile from "./components/profile-page/profile";
 import TopicSelect from "./components/topic-selection/topicselection";
+import SessionManager from "./SessionManager";
+import {Profile} from "./components/profile-page/Profile";
+
+// TODO
+// call useSession around Router tags b/c usage of useNavigate within useSession
+
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sign" element={<RegisterLogin />} />
-        <Route path="/feed" element={<MainFeed />} />
-        <Route path="/topic" element={<TopicSelect />} />
-      </Routes>
+      <SessionManager>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/sign" element={<Login />} />
+          <Route path="/feed" element={<MainFeed />} />
+          <Route path="/topic" element={<TopicSelect />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </SessionManager>
+
+      {/* </SessionManager> */}
     </Router>
   );
 };

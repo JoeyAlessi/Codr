@@ -7,7 +7,8 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 __pycache__
-
+.env
+settings.py
 __pycache__/
 backend/codr_django/codr_django/__pycache__
 backend/codr_django/codr_django/users
