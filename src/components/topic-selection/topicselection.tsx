@@ -3,6 +3,7 @@ import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
 import "./topicselection.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAppSelector } from "../../redux/store";
 
 const topicselection = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const topicselection = () => {
   const [selectedTopicIndex, setSelectedTopicIndices] = useState<number[]>([]);
   const [threeTopicsSelected, setThreeTopicsSelected] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(false); // A little buggy, when first being used
+  const user_name = useAppSelector((state) => state.userState.user?.username);
 
   const handleButtonClick = (index: number) => {
     setSelectedTopicIndices((prevSelectedIndices) => {
@@ -53,7 +55,7 @@ const topicselection = () => {
     // console.log("USERNAME", username);
 
     await axios.post("http://127.0.0.1:8000/api/interests", {
-      // username: username,
+      username: user_name,
       interests: selectedTopics,
     });
     navigate("/feed");

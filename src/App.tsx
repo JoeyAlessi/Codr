@@ -5,7 +5,7 @@ import MainFeed from "./components/main-feed/mainfeed";
 // import Profile from "./components/profile-page/profile";
 import TopicSelect from "./components/topic-selection/topicselection";
 import SessionManager from "./SessionManager";
-import {Profile} from "./components/profile-page/Profile";
+import { Profile } from "./components/profile-page/Profile";
 
 // TODO
 // call useSession around Router tags b/c usage of useNavigate within useSession
@@ -19,7 +19,7 @@ const App = () => {
           <Route path="/sign" element={<Login />} />
           <Route path="/feed" element={<MainFeed />} />
           <Route path="/topic" element={<TopicSelect />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:profile" element={<Profile />} />
         </Routes>
       </SessionManager>
 

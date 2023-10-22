@@ -1,18 +1,17 @@
-import "../../components/main-feed/navbar.css";
 import { useNavigate } from "react-router-dom";
 import EmptyLogo from "../../assets/Logo/Empty_Logo.png";
+import "../../components/main-feed/navbar.css";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiAddToQueue } from "react-icons/bi";
 import { BsFillPersonFill } from "react-icons/bs";
 import { HiOutlineCog, HiOutlineMagnifyingGlass } from "react-icons/hi2";
+
 import { Dispatch, SetStateAction } from "react";
 import { run } from "../../utils";
 import { SearchBarTab } from "./searchTab";
 import { useScreenSize } from "../../hooks/useScreenSize";
-import { PostCard } from "../posts/postcard"
-import { useDispatch } from "react-redux";
-import { UserActions } from "../../redux/reducers/user";
-import { User } from "../../services/types";
+import { PostCard } from "../posts/postcard";
+import { useAppSelector } from "../../redux/store";
 
 type NavBarProps = {
   handleSearchClick: boolean;
@@ -27,26 +26,21 @@ export const NavBar = ({
   makePost,
   setMakePost,
 }: NavBarProps) => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  // const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const username = useAppSelector((state) => state.userState.user?.username);
+
   // from custom hook useScreenSize
   // --- it is finding the size of the screen
   // --- could be used for readjusting screen size
   const { isLargeScreen, isMediumScreen } = useScreenSize();
   const navBarWidth = 385; // used for calculations regarding outside divs
 
-  const c_user: User = {
-
-  }
-
   return (
     <>
       {/* Post Component */}
 
-      <PostCard
-      makePost={makePost}
-      setMakePost={setMakePost}
-      />
+      <PostCard makePost={makePost} setMakePost={setMakePost} />
 
       {handleSearchClick ? (
         <>
@@ -66,13 +60,7 @@ export const NavBar = ({
               <img
                 src={EmptyLogo}
                 alt="Logo"
-                className="top-0 left-0 p-2 lg:h-[8vh] cursor-pointer transition-height duration-300 ease-in-out"
-                onClick={() => {navigate("/")
-                localStorage.removeItem("JWT_TOKEN") 
-                console.log("LOGGED OUT")}
-                dispatch({ type: UserActions.Login, payload: {user: User} });
-              }
-                
+                className="top-0 left-0 p-2 lg:h-[6vh] transition-height duration-300 ease-in-out"
               />
             </div>
 
@@ -134,9 +122,7 @@ export const NavBar = ({
               </div>
 
               <div
-                onClick={() => {
-                  navigate("/profile");
-                }}
+                onClick={() => navigate(`/profile/${username}`)}
                 className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md"
               >
                 <div
@@ -154,9 +140,7 @@ export const NavBar = ({
                 </div>
               </div>
 
-              <div 
-             
-              className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
+              <div className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md">
                 <div
                   style={{
                     fontFamily: "Verdana",
@@ -241,9 +225,7 @@ export const NavBar = ({
                       <div className="custom-transition-width-left">Post</div>
                     </div>
                     <div
-                      onClick={() => {
-                        navigate("/profile");
-                      }}
+                      onClick={() => navigate(`/profile/${username}`)}
                       className="pl-4 hover: cursor-pointer group flex h-16 w-full items-center  hover:bg-gray-600 hover:rounded-md"
                       style={{
                         fontFamily: "Verdana",
@@ -289,7 +271,7 @@ export const NavBar = ({
                     <img
                       src={EmptyLogo}
                       alt="Logo"
-                      className="top-0 left-0 p-2 lg:h-[8vh] transition-height duration-300 ease-in-out"
+                      className="top-0 left-0 p-2 lg:h-[6vh] transition-height duration-300 ease-in-out"
                     />
                   </div>
 
@@ -350,9 +332,7 @@ export const NavBar = ({
                     </div>
 
                     <div
-                      onClick={() => {
-                        navigate("/profile");
-                      }}
+                      onClick={() => navigate(`/profile/${username}`)}
                       className="group flex h-16 cursor-pointer w-full items-center justify-start hover:bg-gray-600 hover:rounded-md"
                     >
                       <div

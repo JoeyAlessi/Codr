@@ -6,7 +6,7 @@ import LogoText from "../../assets/Logo/LogoText.png";
 import Text from "../../assets/Logo/Text.png";
 import { Register } from "../register-page/Register";
 import { User } from "../../services/types";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useAppDispatch } from "../../redux/store";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -17,8 +17,8 @@ export const Login = () => {
   const [register, setRegisterState] = useState(false);
 
   // const user_info2 = useSelector((state: UserState) => state); bad implementation
-  const user_info = useAppSelector((state) => state.userState);
-  console.log("USER_STATE", user_info);
+  // const user_name = useAppSelector((state) => state.userState.user?.username); good implementation
+  // console.log("USER_STATE", user_info);
 
   const loginUser = async () => {
     // where i should move it?

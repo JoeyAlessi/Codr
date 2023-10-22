@@ -164,7 +164,6 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
     # custom
-    "SECRET": "MONkEYBALLS",
     "AUTH_COOKIE": "JWT_TOKEN",  # Cookie name. Enables cookies if value is set.
     "AUTH_COOKIE_DOMAIN": None,  # A string like "example.com", or None for standard domain cookie.
     "AUTH_COOKIE_SECURE": True,  # Whether the auth cookies should be secure (https:// only).

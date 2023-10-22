@@ -17,6 +17,7 @@ export enum UserActions {
   SignUp = "user/SIGN_UP",
 }
 
+// what is required on each action
 interface LoginAction {
   type: UserActions.Login;
   payload: { user: User };
@@ -32,6 +33,7 @@ interface SignUpAction {
 }
 
 export const userStateReducer = (
+  // default state and possible actions that mutate state
   state: UserState = DEFAULT_USER_STATE,
   action: LoginAction | LogoutAction | SignUpAction
 ) => {

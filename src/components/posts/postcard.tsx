@@ -2,7 +2,8 @@ import axios from "axios";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BsCircleFill, BsThreeDots } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useDispatch } from "react-redux";
 
 export type Post = {
   user_id: number | undefined;
@@ -18,8 +19,8 @@ type PostCardProps = {
 
 export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
   const username = useAppSelector((state) => state.userState.user?.username);
-  const id = useAppSelector((state) => state.userState.user?.id);
-  const navigate = useNavigate();
+  // const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [input, setInput] = useState("");
@@ -33,27 +34,28 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
   };
 
   // NEED TO IMPLEMENT LATER
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
+  // const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setTitle(event.target.value);
+  // };
 
   const handlePostClick = async () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/post", {
         username: username,
-        user_id: id,
-        // title: title, //objects sending to postgres db
         content: input,
       });
-      console.log("RESPONSE", response);
+      console.log("Posting sucess:", response);
+
+      // after post empty state variable
+      // setPosts((prevPosts) => [
+      //   ...prevPosts,
+      //   { user_id: response.data.id, content: input },
+      // ]);
+      setInput("");
+      setTitle("");
     } catch (error) {
       console.error("error while posting", error);
     }
-    // after post empty state variable 
-    setPosts((prevPosts) => [...prevPosts, { user_id: id,  content: input }]);
-    setInput("");
-    setTitle("");
-
   };
 
   useEffect(() => {
@@ -112,10 +114,7 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
 
                 <div className="flex-col w-1/2 pt-10">
                   {/* Name */}
-                  <div style={{ fontSize: "14px" }}>REAL_NAME</div>
-
-                  {/* Username */}
-                  <div style={{ fontSize: "12px" }}>@USER_NAME</div>
+                  <div style={{ fontSize: "20px" }}>{`@${username}`}</div>
                 </div>
               </div>
 
@@ -131,7 +130,7 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
 
             <div className="flex w-full justify-center pt-4 h-3/5">
               <textarea
-                className="w-5/6 h-4/5 p-4 rounded-xl border bg-white shadow resize-none"
+                className="w-5/6 h-4/5 p-4 rounded-xl border bg-white shadow resize-none text-black"
                 placeholder={placeholder}
                 value={input}
                 onChange={handleInputChange}
@@ -145,7 +144,10 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
 
               <div className="flex h-full w-1/5 justify-center items-center">
                 <button
-                  onClick={handlePostClick}
+                  onClick={() => {
+                    handlePostClick();
+                    setMakePost(false);
+                  }}
                   disabled={isInputEmpty}
                   className={`px-4 py-2 rounded-2xl ${
                     input
