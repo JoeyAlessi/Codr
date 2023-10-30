@@ -1,16 +1,7 @@
 import axios from "axios";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BsCircleFill, BsThreeDots } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { useDispatch } from "react-redux";
-
-export type Post = {
-  user_id: number | undefined;
-  // post_id: number;
-  // title: string;
-  content: string;
-};
+import { useAppSelector } from "../../redux/store";
 
 type PostCardProps = {
   makePost: boolean;
@@ -24,7 +15,6 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
 
   const [title, setTitle] = useState("");
   const [input, setInput] = useState("");
-  const [posts, setPosts] = useState<Post[]>([]);
   const [placeholder, setActivePlaceholder] = useState(
     "Ask anything about computer science..."
   );
@@ -39,18 +29,16 @@ export const PostCard = ({ makePost, setMakePost }: PostCardProps) => {
   // };
 
   const handlePostClick = async () => {
+    console.log("POSTING");
+    console.log("USERNAME", username);
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/post", {
         username: username,
         content: input,
       });
       console.log("Posting sucess:", response);
+      window.location.reload();
 
-      // after post empty state variable
-      // setPosts((prevPosts) => [
-      //   ...prevPosts,
-      //   { user_id: response.data.id, content: input },
-      // ]);
       setInput("");
       setTitle("");
     } catch (error) {

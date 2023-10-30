@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import axios from "axios";
-import { useHref, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { UserActions } from "../redux/reducers/user";
 import { User } from "../services/types";
@@ -10,16 +10,14 @@ export const useSession = () => {
   // const { params } = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
-  console.log({ window });
 
   useEffect(() => {
     // useEffect only takes sync functions, so have to create sync and call func inside useEffect
     async function checkSession() {
       try {
         // automatically will send token in post request
-        const response = await axios.post(
+        const response = await axios.get(
           "http://127.0.0.1:8000/api/authenticate",
-          {},
           // needs with credentials to send http only cookies
           { withCredentials: true }
         );
@@ -31,10 +29,13 @@ export const useSession = () => {
           email: response.data.User.email,
         };
 
+        // store username in LocalStorage to allow it to persist across page reloads
+        // REDUX CAN BE SLOW
+
         dispatch({ type: UserActions.Login, payload: { user: userInfo } });
         console.log({ location });
         // only sends user to feed page if they are in signin at first app load
-        if (location.pathname === "sign") {
+        if (location.pathname === "/sign") {
           navigate("/feed");
         }
       } catch (error: any) {

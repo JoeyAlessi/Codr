@@ -18,24 +18,69 @@ class Post(models.Model):
         blank=True,
         null=True,
     )
-   
+    username = models.CharField(max_length=150, blank=True, null=True)
     content = models.CharField(max_length=2000, default="", blank=True, null=True) 
+    date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    likes = models.IntegerField(default=0, blank=True, null=True) 
+    users_liked = models.ManyToManyField(User, related_name="posts_liked", through="Vote")
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    username = models.CharField(max_length=150, blank=True, null=True)
+    content = models.CharField(max_length=80,default="",blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
 
-    # likes = models.IntegerField(default=0, blank=True, null=True) idk how to implement
-    # comments = models.CharField(default=0, blank=True, null=True) idk how to implement
-     # users_liked = models.ManyToManyField(User, related_name="posts_liked", through="Vote") idk how to implement
-    # title = models.CharField(max_length=50)
-
-
-class UserFollowing(models.Model):
-    user_id = models.ForeignKey(User, related_name="following", on_delete=models.CASCADE) # person who is following others
-
-    following_user_id = models.ForeignKey(User,on_delete=models.CASCADE)
+class Vote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    date_voted = models.DateTimeField(auto_now_add=True) 
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['user_id', 'following_user_id'], name='unique_followers')
-        ]
+        unique_together=["user", "post"]
+
+class FriendRequest(models.Model):
+    request_id = models.AutoField(primary_key=True)
+
+    from_user = models.ForeignKey(
+        User, 
+        related_name='friend_requests_sent', 
+        on_delete=models.CASCADE
+    )
+    # The user to whom the friend request was sent
+    to_user = models.ForeignKey(
+        User, 
+        related_name='friend_requests_received', 
+        on_delete=models.CASCADE
+    )
+
+# unique will delete similar entries if they are detected
+    class Meta:
+        unique_together = ['from_user', 'to_user']
+
+class FriendShip(models.Model):
+    request_id = models.AutoField(primary_key=True)
+
+    user_one = models.ForeignKey(
+        User, 
+        related_name='friend_one', 
+        on_delete=models.CASCADE
+    )
+    # The user to whom the friend request was sent
+    user_two = models.ForeignKey(
+        User, 
+        related_name='friend_two', 
+        on_delete=models.CASCADE
+    )
+
+    def save(self, *args, **kwargs):
+        # Ensure user_one's ID is always less than user_two's ID
+        if self.user_one_id > self.user_two_id:
+            self.user_one, self.user_two = self.user_two, self.user_one
+        
+        super(FriendShip, self).save(*args, **kwargs)
+    class Meta:
+        unique_together = ['user_one', 'user_two']
+    
 

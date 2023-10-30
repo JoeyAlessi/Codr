@@ -36,6 +36,10 @@ export const NavBar = ({
   const { isLargeScreen, isMediumScreen } = useScreenSize();
   const navBarWidth = 385; // used for calculations regarding outside divs
 
+  const handleLogoClick = () => {
+    window.location.reload();
+  };
+
   return (
     <>
       {/* Post Component */}
@@ -60,7 +64,8 @@ export const NavBar = ({
               <img
                 src={EmptyLogo}
                 alt="Logo"
-                className="top-0 left-0 p-2 lg:h-[6vh] transition-height duration-300 ease-in-out"
+                className="top-0 left-0 p-2 lg:h-[6vh] hover:cursor-pointer transition-height duration-300 ease-in-out"
+                onClick={() => handleLogoClick()}
               />
             </div>
 
@@ -171,7 +176,8 @@ export const NavBar = ({
                     <img
                       src={EmptyLogo}
                       alt="Logo"
-                      className="top-0 left-0 m-2 h-8 lg:h-[9vh] transition-height duration-300 ease-in-out"
+                      className="top-0 left-0 m-2 h-8 lg:h-[9vh] hover:cursor-pointer transition-height duration-300 ease-in-out"
+                      onClick={() => handleLogoClick()}
                     />
                   </div>
                   <div className="flex flex-col h-4/5 w-full">
@@ -271,7 +277,8 @@ export const NavBar = ({
                     <img
                       src={EmptyLogo}
                       alt="Logo"
-                      className="top-0 left-0 p-2 lg:h-[6vh] transition-height duration-300 ease-in-out"
+                      className="top-0 left-0 p-2 lg:h-[6vh] cursor:cursor-pointer transition-height duration-300 ease-in-out"
+                      onClick={() => handleLogoClick()}
                     />
                   </div>
 

@@ -1,33 +1,66 @@
 import "./Profile.css";
 import { useEffect, useState } from "react";
 import { NavBar } from "../main-feed/navbar";
-import { BsCircleFill } from "react-icons/bs";
+import { BsCircleFill, BsThreeDots } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { UserActions } from "../../redux/reducers/user";
+import ClipLoader from "react-spinners/ClipLoader";
+import { User, Post } from "../../services/types";
+import { SearchFriends } from "./searchFriends";
+import { RenderPosts } from "./renderPosts";
 
 export const Profile = () => {
   const [handleSearchClick, setHandleSearchClick] = useState(false);
   const [makePost, setMakePost] = useState(false);
-  // profileName will eventually hold all user info including followers + following
-  const [profileName, setProfileName] = useState("");
+  const [clientProfileData, setClientProfileData] = useState<User>();
   const [isLoading, setIsLoading] = useState(true);
+  const [myProfile, setMyProfile] = useState(false);
+  const [sentRequest, setSentRequest] = useState(false);
+  const [isFriend, setIsFriend] = useState(false);
+  const [friendCount, setFriendCount] = useState(0);
+  const [postCount, setPostCount] = useState(0);
+  const [checkFriends, setCheckFriends] = useState(false);
+  const [checkPosts, setCheckPosts] = useState(false);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isCommenting, setIsCommenting] = useState(false);
+  const [commentingPost, setCommentingPost] = useState<Post>();
 
   const navBarWidth = 64; // used for calculations regarding outside divs
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const username = useAppSelector((state) => state.userState.user?.username);
-  const { profile } = useParams();
+  const my_username = useAppSelector((state) => state.userState.user?.username);
+  const my_ID = useAppSelector((state) => state.userState.user?.id);
+  const { client_username } = useParams();
+
   useEffect(() => {
     const fetchUserProfile = async () => {
+      console.log("FETCHING USER PROFILE");
       try {
         setIsLoading(true);
+        if (typeof my_username === "undefined") {
+          return;
+        }
         const response = await axios.get(
-          `http://127.0.0.1:8000/user/${profile}/profile`
+          `http://127.0.0.1:8000/user/${client_username}/${my_username}`
         );
-        // eventually put all response data in one state variable
-        setProfileName(response.data.username); // Store the user data in state
+
+        setClientProfileData(response.data.user);
+        setSentRequest(response.data.i_sent_request);
+        setIsFriend(response.data.isFriend);
+        setMyProfile(response.data.myAccount);
+
+        // if its my account this will exist
+        if (response.data.myAccount) {
+          setFriendCount(response.data.myFollowerCount);
+          setPostCount(response.data.myPostCount);
+          setPosts(response.data.myPosts);
+        } else {
+          setFriendCount(response.data.clientFollowerCount);
+          setPostCount(response.data.clientPostCount);
+          setPosts(response.data.clientPosts);
+        }
         setIsLoading(false);
       } catch (error: any) {
         console.error("Error:", error);
@@ -35,14 +68,42 @@ export const Profile = () => {
     };
 
     fetchUserProfile();
-  }, [profile]);
+  }, [client_username, my_username]);
+
+  const sendFriendRequest = async () => {
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:8000/user/handle_request?my_ID=${my_ID}&client_ID=${clientProfileData?.id}`,
+        {
+          from_id: my_ID,
+          to_id: clientProfileData?.id,
+        }
+      );
+      console.log("Response", response);
+      setSentRequest(!sentRequest);
+    } catch (error: any) {
+      console.log("Error", error);
+    }
+  };
+
+  const removeFriendRequest = async () => {
+    try {
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/api/handle_request${my_ID}/${clientProfileData?.id}`
+      );
+      console.log("Response", response);
+      setSentRequest(!sentRequest);
+    } catch (error: any) {
+      console.log("Error", error);
+    }
+  };
 
   const logoutUser = async () => {
     // logic only for logged in user
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/logout",
-        { username: username },
+        { username: my_username },
         { withCredentials: true }
       );
       navigate("/sign");
@@ -56,12 +117,30 @@ export const Profile = () => {
 
   return (
     <div className="flex relative min-h-screen w-screen gradient-background-main">
+      <SearchFriends
+        checkFriends={checkFriends}
+        setCheckFriends={setCheckFriends}
+      />
+
+      <RenderPosts
+        checkPosts={checkPosts}
+        setCheckPosts={setCheckPosts}
+        posts={posts}
+        username={myProfile ? my_username : client_username}
+        isCommenting={isCommenting}
+        setIsCommenting={setIsCommenting}
+        commentingPost={commentingPost!}
+        setCommentingPost={setCommentingPost}
+      />
       <NavBar
         handleSearchClick={handleSearchClick}
         setHandleSearchClick={setHandleSearchClick}
         makePost={makePost}
         setMakePost={setMakePost}
       />
+
+      {/* placeholder for fixed navbar */}
+
       {/* turnary statement to render transparent div */}
       {/* add isLoading and isYourPage functionality */}
 
@@ -73,10 +152,15 @@ export const Profile = () => {
         {isLoading ? (
           <div className="flex w-95-percent h-90-percent justify-center items-center rounded-2xl bg-gray-600 ">
             {/* loading screen elements */}
-            <div className="loader">Loading...</div>
+            <ClipLoader
+              color="#00000"
+              size={100}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
           </div>
         ) : (
-          <div className="flex w-95-percent h-90-percent rounded-2xl bg-gray-600 ">
+          <div className="flex flex-col w-95-percent h-90-percent rounded-2xl bg-gray-600 ">
             <div className="flex flex-row h-1/4 w-full rounded-2xl justify-center">
               <div className="flex w-3/4 h-full">
                 <div className="flex w-1/3 h-full justify-center items-center">
@@ -99,39 +183,41 @@ export const Profile = () => {
                       }}
                       className="w-1/4 flex justify-center"
                     >
-                      {profileName}
+                      {/* render username here */}
+                      {clientProfileData?.username}
                     </div>
 
                     <div className="w-4/5 flex justify-evenly">
-                      <button
-                        style={{
-                          backgroundColor: "gray",
-                          fontFamily: "Verdana",
-                          fontSize: "18px",
-                          color: "white",
-                        }}
-                        className="flex items-center"
-                      >
-                        Edit Account
-                      </button>
+                      {myProfile ? (
+                        <>
+                          <button
+                            style={{
+                              backgroundColor: "gray",
+                              fontFamily: "Verdana",
+                              fontSize: "18px",
+                              color: "white",
+                            }}
+                            className="flex items-center"
+                          >
+                            Edit Account
+                          </button>
 
-                      <button
-                        onClick={
-                          () => {
-                            logoutUser();
-                          }
-                          // dispatch({ type: UserActions.Login, payload: {user: User} });
-                        }
-                        style={{
-                          backgroundColor: "red",
-                          fontFamily: "Verdana",
-                          fontSize: "18px",
-                          color: "white",
-                        }}
-                        className="flex items-center"
-                      >
-                        Log Out
-                      </button>
+                          <button
+                            onClick={() => {
+                              logoutUser();
+                            }}
+                            style={{
+                              backgroundColor: "red",
+                              fontFamily: "Verdana",
+                              fontSize: "18px",
+                              color: "white",
+                            }}
+                            className="flex items-center"
+                          >
+                            Log Out
+                          </button>
+                        </>
+                      ) : null}
                     </div>
                   </div>
 
@@ -148,19 +234,113 @@ export const Profile = () => {
                     {/* ACCOUNT INFO DIV */}
 
                     <div className="w-1/5 flex justify-center">
-                      {/* {Add amount of posts before word} */}0 Posts
+                      <div
+                        onClick={() => setCheckPosts(true)}
+                        className="hover:cursor-pointer"
+                      >
+                        {`${postCount} Posts`}
+                      </div>
                     </div>
 
-                    <div className="w-2/5 flex justify-center">
-                      {/* {Add amount of followers before word} */}0 Followers
+                    <div className="w-2/5 flex justify-center ">
+                      <div
+                        onClick={() => setCheckFriends(true)}
+                        className="hover:cursor-pointer"
+                      >
+                        {`${friendCount} Friends`}
+                      </div>
                     </div>
+                  </div>
 
-                    <div className="w-1/4 flex justify-center">
-                      {/* {Add amount following before word} */}0 Following
-                    </div>
+                  {/* buttons for following and unfollowing */}
+                  <div className="flex flex-row h-1/5 w-full">
+                    {myProfile ? null : isFriend ? (
+                      <div
+                        style={{
+                          backgroundColor: "gray",
+                          fontFamily: "Verdana",
+                          fontSize: "18px",
+                          color: "white",
+                        }}
+                        className="flex items-center justify-center h-full w-32 rounded-md"
+                      >
+                        Following
+                      </div>
+                    ) : sentRequest ? (
+                      <button
+                        onClick={() => removeFriendRequest()}
+                        style={{
+                          backgroundColor: "gray",
+                          fontFamily: "Verdana",
+                          fontSize: "18px",
+                          color: "white",
+                        }}
+                        className="flex items-center"
+                      >
+                        Request Sent
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => sendFriendRequest()}
+                        style={{
+                          backgroundColor: "gray",
+                          fontFamily: "Verdana",
+                          fontSize: "18px",
+                          color: "white",
+                        }}
+                        className="flex items-center"
+                      >
+                        Send Follow Request
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="flex h-4/5 w-full flex-wrap ">
+              {posts.slice(0, 6).map((post, index) => (
+                <div
+                  onClick={() => {
+                    setIsCommenting(true);
+                    setCommentingPost(post);
+                    setCheckPosts(false);
+                  }}
+                  key={index}
+                  style={{
+                    height: handleSearchClick ? "270px" : "300px",
+                    width: handleSearchClick ? "341px" : "390px",
+                  }}
+                  className="flex flex-col bg-slate-500 rounded-lg m-2 hover:cursor-pointer"
+                >
+                  {/* top bar of post */}
+                  <div className="flex h-1/6 w-full bg-slate-700 rounded-t-lg border-b-2 ">
+                    <div className="flex justify-end items-center h-full w-1/6">
+                      <BsCircleFill size={20} style={{ color: "white" }} />
+                    </div>
+
+                    <div className="flex justify-start items-center h-full w-2/3 pl-2">
+                      <p style={{ fontSize: 12 }}>{post.username}</p>
+                    </div>
+
+                    <div className="flex justify-center items-center h-full w-1/6 ">
+                      <BsThreeDots
+                        size={32}
+                        style={{ color: "white" }}
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  {/* post content rendered here */}
+                  <div
+                    style={{ fontSize: 16 }}
+                    className="flex w-full h-5/6 p-4 break-all"
+                  >
+                    {post.content}
+                  </div>
+                  {/* bottom bar of post */}
+                </div>
+              ))}
             </div>
           </div>
         )}

@@ -19,11 +19,9 @@ const App = () => {
           <Route path="/sign" element={<Login />} />
           <Route path="/feed" element={<MainFeed />} />
           <Route path="/topic" element={<TopicSelect />} />
-          <Route path="/profile/:profile" element={<Profile />} />
+          <Route path="/profile/:client_username" element={<Profile />} />
         </Routes>
       </SessionManager>
-
-      {/* </SessionManager> */}
     </Router>
   );
 };
